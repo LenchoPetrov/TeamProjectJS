@@ -5,9 +5,9 @@ export default class PostsView extends Component {
         let that=this;
         let postRows = this.props.posts.map(post =>
             <tr key={post._id}>
-                <td>{post.title}</td>
+                <td>{that.props.cutText(post.title,20)}</td>
                 <td>{post.author}</td>
-                <td>{post.body}</td>
+                <td>{that.props.cutText(post.body,100)}</td>
                 <td>{that.props.parseDate(post.date)}</td>
                 {this.getActions(post, this.props.userId)}
             </tr>
@@ -43,9 +43,13 @@ export default class PostsView extends Component {
                     &nbsp;
                     <input type="button" value="Delete"
                            onClick={this.props.deletePostClicked.bind(this, post._id)} />
+                    &nbsp;
+                    <input type="button" value="Details"
+                           onClick={this.props.getDetailsPostClicked.bind(this, post._id)} />
                 </td>
             );
         else
-            return <td></td>;
+            return <td> <input type="button" value="Details"
+                               onClick={this.props.getDetailsPostClicked.bind(this, post._id)} /></td>;
     }
 }

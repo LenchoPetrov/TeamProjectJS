@@ -35,3 +35,31 @@ table td {
     padding: 5px 10px;
     background: #EEE;
 }
+
+
+
+
+
+#PostBox{
+    background: #9da0a4;
+    border-radius:5px;
+    padding-left:5px;
+    padding-bottom:5px;
+    color:#272B30;
+
+}
+#PostBox h2{
+    color:whitesmoke;
+    font-family:Calibri;
+}
+#PostBox #PostText{
+    border-style:solid;
+    border-radius:5px;
+    border-color:#525252;
+    border-width:1px;
+    background:#DDDDDD;
+    margin-right:20px;
+    padding-left:5px;
+    margin-bottom:20px;
+}
+

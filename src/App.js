@@ -9,8 +9,10 @@ import LoginView from './Views/LoginView';
 import RegisterView from './Views/RegisterView';
 import PostsView from './Views/PostsView';
 import CreatePostView from './Views/CreatePostView';
-import EditPostView from './Views/EditPostView'
-import DeletePostView from './Views/DeletePostView'
+import EditPostView from './Views/EditPostView';
+import DeletePostView from './Views/DeletePostView';
+import DetailsPostView from './Views/DetailsPostView';
+
 
 import $ from 'jquery';
 import KinveyRequester from './KinveyRequester'
@@ -110,6 +112,8 @@ class App extends Component {
                 userId={this.state.userId}
                 editPostClicked={this.loadPostForEdit.bind(this)}
                 deletePostClicked={this.loadPostForDelete.bind(this)}
+                getDetailsPostClicked={this.loadPostDetails.bind(this)}
+                cutText={this.cutText.bind(this)}
                 parseDate={this.parseDate.bind(this)}
             />)
         }
@@ -128,7 +132,21 @@ class App extends Component {
             this.showPostsView();
         }
     }
-
+    loadPostDetails(postId){
+        let that=this;
+        KinveyRequester.findPostById(postId)
+            .then(findPostById.bind(this));
+        function findPostById(post){
+            this.showView(<DetailsPostView
+                author={post.author}
+                date={post.date}
+                title={post.title}
+                body={post.body}
+                date={that.parseDate(post.date)}
+            />)
+        }
+        
+    }
     loadPostForEdit(postId){
         KinveyRequester.findPostById(postId)
             .then(findPostById.bind(this));
@@ -220,6 +238,12 @@ class App extends Component {
     parseDate(dateString){
         let date=new Date(Number(dateString));
         return `${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}`
+    }
+
+    cutText(text,maxLength){
+        if(text.length>maxLength)
+            text=text.substr(0,maxLength)+'...'
+        return text;
     }
     
 }

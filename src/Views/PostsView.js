@@ -2,11 +2,13 @@ import React, { Component } from 'react';
 
 export default class PostsView extends Component {
     render() {
+        let that=this;
         let postRows = this.props.posts.map(post =>
             <tr key={post._id}>
                 <td>{post.title}</td>
                 <td>{post.author}</td>
                 <td>{post.body}</td>
+                <td>{that.props.parseDate(post.date)}</td>
                 {this.getActions(post, this.props.userId)}
             </tr>
         );
@@ -20,6 +22,7 @@ export default class PostsView extends Component {
                         <th>Title</th>
                         <th>Author</th>
                         <th>Body</th>
+                        <th>Date</th>
                         <th>Actions</th>
                     </tr>
                     </thead>

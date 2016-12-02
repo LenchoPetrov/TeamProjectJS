@@ -29,8 +29,8 @@ let KinveyRequester=(function(){
             headers:getAuthHeaders()
         })
     }
-    function createPost(title,author,body){
-        let postData={title,author,body};
+    function createPost(title,author,body,date){
+        let postData={title,author,body,date};
         return $.ajax({
             method:"POST",
             url:kinveyBaseUrl+'appdata/'+kinveyAppKey+'/posts',
@@ -45,8 +45,8 @@ let KinveyRequester=(function(){
             headers:getAuthHeaders()
         })
     }
-    function editPost(postId,title,author,body){
-        let putData={title,author,body};
+    function editPost(postId,title,author,body,date){
+        let putData={title,author,body,date};
         return $.ajax({
             method:"PUT",
             url:kinveyBaseUrl+'appdata/'+kinveyAppKey+'/posts/'+postId,

@@ -110,15 +110,18 @@ class App extends Component {
                 userId={this.state.userId}
                 editPostClicked={this.loadPostForEdit.bind(this)}
                 deletePostClicked={this.loadPostForDelete.bind(this)}
+                parseDate={this.parseDate.bind(this)}
             />)
         }
     }
     showCreatePostView(){
-        this.showView(<CreatePostView onsubmit={this.createPost.bind(this)}/>)
+        this.showView(<CreatePostView author={this.state.username} onsubmit={this.createPost.bind(this)}/>)
     }
 
     createPost(title,author,body){
-        KinveyRequester.createPost(title,author,body)
+        let date=Date.now();
+
+        KinveyRequester.createPost(title,author,body,date)
             .then(createPostSuccess.bind(this));
         function createPostSuccess() {
             this.showInfo('Post created.');
@@ -133,8 +136,10 @@ class App extends Component {
             this.showView(<EditPostView
                 postId={post._id}
                 author={post.author}
+                date={post.date}
                 title={post.title}
                 body={post.body}
+                parseDate={this.parseDate.bind(this)}
                 onsubmit={this.editPost.bind(this)}
             />)
         }
@@ -147,8 +152,10 @@ class App extends Component {
             this.showView(<DeletePostView
                 postId={post._id}
                 author={post.author}
+                date={post.date}
                 title={post.title}
                 body={post.body}
+                parseDate={this.parseDate}
                 onsubmit={this.deletePost.bind(this)}
             />)
         }
@@ -162,8 +169,8 @@ class App extends Component {
             this.showPostsView();
         }
     }
-    editPost(postId,title,author,body){
-        KinveyRequester.editPost(postId,title,author,body)
+    editPost(postId,title,author,body,date){
+        KinveyRequester.editPost(postId,title,author,body,date)
             .then(editPostSuccess.bind(this));
         function editPostSuccess() {
             this.showInfo('Post edited.');
@@ -207,6 +214,12 @@ class App extends Component {
             username:userInfo.username,
             userId:userInfo._id
         })
+    }
+
+
+    parseDate(dateString){
+        let date=new Date(Number(dateString));
+        return `${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}`
     }
     
 }

@@ -6,14 +6,15 @@ class CreatePostView extends Component{
             <form className="create-post-form" onSubmit={this.submitForm.bind(this)}>
                 <h1>Create Book</h1>
                 <label>
+                    <div>Author:</div>
+                    <input type="text" name="author" required
+                           defaultValue={this.props.author}
+                           ref={e => this.authorField = e} disabled />
+                </label>
+                <label>
                     <div>Title:</div>
                     <input type="text" name="title" required
                            ref={e => this.titleField = e} />
-                </label>
-                <label>
-                    <div>Author:</div>
-                    <input type="text" name="author" required
-                           ref={e => this.authorField = e} />
                 </label>
                 <label>
                     <div>Body:</div>

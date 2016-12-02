@@ -18,6 +18,11 @@ class DeletePostView extends Component{
                            ref={e => this.authorField = e} disabled />
                 </label>
                 <label>
+                    <div>Posted on:</div>
+                    <input type="text" name="date" required
+                           defaultValue={this.props.parseDate(this.props.date)} disabled />
+                </label>
+                <label>
                     <div>Body:</div>
                     <textarea name="body" rows="10"
                               defaultValue={this.props.body}

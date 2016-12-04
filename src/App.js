@@ -300,14 +300,14 @@ class App extends Component {
             this.showInfo('Users loaded.');
             this.showView(<UserView
                 users={users}
-                getDetailsUserClicked={this.loadUsersDetails.bind(this)}
+                userProfileClicked={this.loadUsersDetails.bind(this)}
             />)
         }
     }
 
     loadUsersDetails(userId){
         KinveyRequester.findUserById(userId)
-            .then(findUserById().bind(this));
+            .then(findUserById.bind(this));
         function findUserById(user){
             this.showView(<DetailsUserView
                 username={user.username}

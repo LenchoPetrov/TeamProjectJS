@@ -5,7 +5,7 @@ export default class UserView extends Component {
         let that=this;
         let userRows = this.props.users.map(user =>
             <tr key={user._id}>
-                <td><a href="#" onClick={this.props.userProfileClicked}>{user.username}</a></td>
+                <td><a href="#" onClick={function(){that.props.userProfileClicked(user._id)}}>{user.username}</a></td>
                 <td>{user.firstName}</td>
                 <td>{user.lastName}</td>
             </tr>
@@ -29,24 +29,5 @@ export default class UserView extends Component {
             </div>
         );
     }
-
-    /*getActions(post, userId) {
-        if (post._acl.creator === userId)
-            return (
-                <td>
-                    <input type="button" value="Edit"
-                           onClick={this.props.editPostClicked.bind(this, post._id)} />
-                    &nbsp;
-                    <input type="button" value="Delete"
-                           onClick={this.props.deletePostClicked.bind(this, post._id)} />
-                    &nbsp;
-                    <input type="button" value="Details"
-                           onClick={this.props.getDetailsPostClicked.bind(this, post._id)} />
-                </td>
-            );
-        else
-            return <td> <input type="button" value="Details"
-                               onClick={this.props.getDetailsPostClicked.bind(this, post._id)} /></td>;
-    }*/
 }
 

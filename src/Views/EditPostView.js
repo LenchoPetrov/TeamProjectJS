@@ -28,6 +28,12 @@ class EditPostView extends Component{
                               defaultValue={this.props.body}
                               ref={e => this.bodyField = e} />
                 </label>
+                <label>
+                    <div>Tags:</div>
+                    <input type="text" name="tags"
+                           defaultValue={(this.props.tags!=='')?this.props.tags.join(', '):''}
+                           ref={e => this.tagsField = e} />
+                </label>
                 <div>
                     <input type="submit" value="Edit" />
                 </div>
@@ -36,7 +42,7 @@ class EditPostView extends Component{
     }
     submitForm(event){
         event.preventDefault();
-        this.props.onsubmit(this.props.postId,this.titleField.value,this.authorField.value,this.bodyField.value,this.props.date)
+        this.props.onsubmit(this.props.postId,this.titleField.value,this.authorField.value,this.bodyField.value,this.props.date,this.tagsField.value)
     }
 }
 

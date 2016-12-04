@@ -68,7 +68,7 @@ let KinveyRequester=(function(){
             'Authorization':'Kinvey '+sessionStorage.getItem('authToken')
         }
     }
-<<<<<<< HEAD
+
     function loadUsers(){
         return $.ajax({
             method:"GET",
@@ -84,10 +84,6 @@ let KinveyRequester=(function(){
         })
     }
     return {loginUser,registerUser,loadPosts,createPost,findPostById,editPost,deletePost,loadUsers,findUserById}
-=======
-
-    return {loginUser,registerUser,loadPosts,createPost,findPostById,editPost,deletePost}
->>>>>>> origin/master
 })();
 
 export default KinveyRequester;

@@ -12,6 +12,8 @@ import CreatePostView from './Views/CreatePostView';
 import EditPostView from './Views/EditPostView';
 import DeletePostView from './Views/DeletePostView';
 import DetailsPostView from './Views/DetailsPostView';
+import UserView from './Views/UsersView';
+import DetailsUserView from './Views/DetailsUserView';
 
 
 import $ from 'jquery';
@@ -51,6 +53,7 @@ class App extends Component {
                 registerClicked={this.showRegisterView.bind(this)}
                 postsClicked={this.showPostsView.bind(this)}
                 createPostClicked={this.showCreatePostView.bind(this)}
+                usersClicked={this.showUsersView.bind(this)}
                 logoutClicked={this.logout.bind(this)}
             />
             <div id="loadingBox">Loading...</div>
@@ -205,8 +208,8 @@ class App extends Component {
             this.showPostsView();
         }
     }
-    register(username,password){
-        KinveyRequester.registerUser(username,password)
+    register(username,firstName,lastName,password){
+        KinveyRequester.registerUser(username,firstName,lastName,password)
             .then(registerSuccess.bind(this));
         function registerSuccess(userInfo){
             this.saveAuthInSession(userInfo);
@@ -245,7 +248,31 @@ class App extends Component {
             text=text.substr(0,maxLength)+'...'
         return text;
     }
-    
+
+    showUsersView(){
+        KinveyRequester.loadUsers()
+            .then(loadUsersSuccess.bind(this));
+        function loadUsersSuccess(users){
+            this.showInfo('Users loaded.');
+            this.showView(<UserView
+                users={users}
+                getDetailsUserClicked={this.loadUsersDetails.bind(this)}
+            />)
+        }
+    }
+
+    loadUsersDetails(userId){
+        KinveyRequester.findUserById(userId)
+            .then(findUserById().bind(this));
+        function findUserById(user){
+            this.showView(<DetailsUserView
+                username={user.username}
+                firstName={user.firstName}
+                lastName={user.lastName}
+            />)
+        }
+
+    }
 }
 
 export default App;

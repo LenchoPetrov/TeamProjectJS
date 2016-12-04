@@ -14,11 +14,11 @@ let KinveyRequester=(function(){
             headers:kinveyAppAuthHeaders
         })
     }
-    function registerUser(username,password){
+    function registerUser(username,firstName,lastName,password){
         return $.ajax({
             method:"POST",
             url:kinveyBaseUrl+'user/'+kinveyAppKey,
-            data:{username,password},
+            data:{username, firstName,lastName, password},
             headers:kinveyAppAuthHeaders
         })
     }
@@ -66,7 +66,21 @@ let KinveyRequester=(function(){
             'Authorization':'Kinvey '+sessionStorage.getItem('authToken')
         }
     }
-    return {loginUser,registerUser,loadPosts,createPost,findPostById,editPost,deletePost}
+    function loadUsers(){
+        return $.ajax({
+            method:"GET",
+            url:kinveyBaseUrl+'user/'+kinveyAppKey,
+            headers:getAuthHeaders()
+        })
+    }
+    function findUserById(userId){
+        return $.ajax({
+            method:"GET",
+            url:kinveyBaseUrl+'user/'+kinveyAppKey+'/'+userId,
+            headers:getAuthHeaders()
+        })
+    }
+    return {loginUser,registerUser,loadPosts,createPost,findPostById,editPost,deletePost,loadUsers,findUserById}
 })();
 
 export default KinveyRequester;

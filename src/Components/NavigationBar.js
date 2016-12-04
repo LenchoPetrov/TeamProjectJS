@@ -19,6 +19,7 @@ class NavigationBar extends Component {
                     <a href="#" onClick={this.props.homeClicked}>Home</a>
                     <a href="#" onClick={this.props.postsClicked}>Posts</a>
                     <a href="#" onClick={this.props.createPostClicked}>Create Post</a>
+                    <a href="#" onClick={this.props.usersClicked}>Users</a>
                     <a href="#" onClick={this.props.logoutClicked}>Logout</a>
                     <span className="loggedInUser">
                         Welcome, {this.props.username}

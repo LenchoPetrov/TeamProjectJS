@@ -4,7 +4,7 @@ class CreatePostView extends Component{
     render(){
         return(
             <form className="create-post-form" onSubmit={this.submitForm.bind(this)}>
-                <h1>Create Book</h1>
+                <h1>Create Post</h1>
                 <label>
                     <div>Author:</div>
                     <input type="text" name="author" required
@@ -21,6 +21,11 @@ class CreatePostView extends Component{
                     <textarea name="body" rows="10"
                               ref={e => this.bodyField = e} />
                 </label>
+                <label>
+                    <div>Tags:</div>
+                    <input type="text" name="tags"
+                           ref={e => this.tagsField = e} />
+                </label>
                 <div>
                     <input type="submit" value="Create" />
                 </div>
@@ -29,7 +34,7 @@ class CreatePostView extends Component{
     }
     submitForm(event){
         event.preventDefault();
-        this.props.onsubmit(this.titleField.value,this.authorField.value,this.bodyField.value)
+        this.props.onsubmit(this.titleField.value,this.authorField.value,this.bodyField.value,this.tagsField.value)
     }
 }
 

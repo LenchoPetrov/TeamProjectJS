@@ -116,19 +116,37 @@ class App extends Component {
                 editPostClicked={this.loadPostForEdit.bind(this)}
                 deletePostClicked={this.loadPostForDelete.bind(this)}
                 getDetailsPostClicked={this.loadPostDetails.bind(this)}
+                searchPosts={this.searchPosts.bind(this)}
                 cutText={this.cutText.bind(this)}
                 parseDate={this.parseDate.bind(this)}
             />)
         }
     }
+    showFilteredPostsView(posts){
+        this.showInfo('Posts loaded.');
+        this.showView(<PostsView
+            posts={posts}
+            userId={this.state.userId}
+            editPostClicked={this.loadPostForEdit.bind(this)}
+            deletePostClicked={this.loadPostForDelete.bind(this)}
+            getDetailsPostClicked={this.loadPostDetails.bind(this)}
+            searchPosts={this.searchPosts.bind(this)}
+            cutText={this.cutText.bind(this)}
+            parseDate={this.parseDate.bind(this)}
+        />)
+    }
     showCreatePostView(){
         this.showView(<CreatePostView author={this.state.username} onsubmit={this.createPost.bind(this)}/>)
     }
 
-    createPost(title,author,body){
+    createPost(title,author,body,tags){
         let date=Date.now();
 
-        KinveyRequester.createPost(title,author,body,date)
+        if(tags.length>0) {
+            tags = tags.split(',').map(tag=>tag.trim().toLowerCase());
+        }
+
+        KinveyRequester.createPost(title,author,body,date,tags)
             .then(createPostSuccess.bind(this));
         function createPostSuccess() {
             this.showInfo('Post created.');
@@ -160,6 +178,7 @@ class App extends Component {
                 date={post.date}
                 title={post.title}
                 body={post.body}
+                tags={post.tags}
                 parseDate={this.parseDate.bind(this)}
                 onsubmit={this.editPost.bind(this)}
             />)
@@ -190,8 +209,11 @@ class App extends Component {
             this.showPostsView();
         }
     }
-    editPost(postId,title,author,body,date){
-        KinveyRequester.editPost(postId,title,author,body,date)
+    editPost(postId,title,author,body,date,tags){
+        if(tags.length>0) {
+            tags = tags.split(',').map(tag=>tag.trim().toLowerCase());
+        }
+        KinveyRequester.editPost(postId,title,author,body,date,tags)
             .then(editPostSuccess.bind(this));
         function editPostSuccess() {
             this.showInfo('Post edited.');
@@ -236,6 +258,28 @@ class App extends Component {
             userId:userInfo._id
         })
     }
+
+    searchPosts(searchVal,searchText){
+        KinveyRequester.loadPosts()
+            .then(loadPostsSuccess.bind(this));
+        function loadPostsSuccess(posts){
+            switch(searchVal) {
+                case 'author':
+                    posts=posts.filter(post=>post.author.toLowerCase().indexOf(searchText)!=-1);
+                    this.showFilteredPostsView(posts);
+                    break;
+                case 'title':
+                    posts=posts.filter(post=>post.title.toLowerCase().indexOf(searchText)!=-1);
+                    this.showFilteredPostsView(posts);
+                    break;
+                case 'tag':
+                    posts=posts.filter(post=>post.tags.indexOf(searchText)!=-1);
+                    this.showFilteredPostsView(posts);
+                    break;
+            }
+        }
+    }
+    
 
 
     parseDate(dateString){

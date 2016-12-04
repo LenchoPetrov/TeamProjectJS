@@ -29,8 +29,8 @@ let KinveyRequester=(function(){
             headers:getAuthHeaders()
         })
     }
-    function createPost(title,author,body,date){
-        let postData={title,author,body,date};
+    function createPost(title,author,body,date,tags){
+        let postData={title,author,body,date,tags};
         return $.ajax({
             method:"POST",
             url:kinveyBaseUrl+'appdata/'+kinveyAppKey+'/posts',
@@ -45,8 +45,8 @@ let KinveyRequester=(function(){
             headers:getAuthHeaders()
         })
     }
-    function editPost(postId,title,author,body,date){
-        let putData={title,author,body,date};
+    function editPost(postId,title,author,body,date,tags){
+        let putData={title,author,body,date,tags};
         return $.ajax({
             method:"PUT",
             url:kinveyBaseUrl+'appdata/'+kinveyAppKey+'/posts/'+postId,
@@ -61,11 +61,14 @@ let KinveyRequester=(function(){
             headers:getAuthHeaders()
         })
     }
+    
+    
     function getAuthHeaders(){
         return {
             'Authorization':'Kinvey '+sessionStorage.getItem('authToken')
         }
     }
+
     return {loginUser,registerUser,loadPosts,createPost,findPostById,editPost,deletePost}
 })();
 

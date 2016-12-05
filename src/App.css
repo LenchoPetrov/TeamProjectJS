@@ -70,6 +70,7 @@ table td {
     font-size: 16px;
     border-radius: 5px;
     padding: 5px 10px 5px 10px;
+    margin-top: 5px;
 }
 
 .my-btns:hover {
@@ -159,4 +160,27 @@ table td {
 
 table tr td, table tr th{
     background-color: rgba(0,0,0,0.25);
+    font-size: 20px;
 }
+
+.users-click{
+    text-decoration: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: black;
+}
+
+.users-click:hover {
+    color: #3f3f3f;
+    text-shadow: 1px -1px 1px #010;
+}
+
+.search-post{
+    margin-left: 12px;
+    margin-bottom: 2px;
+}
+.options {
+    /* Whatever color  you want */
+    background-color: rgba(0,0,0,0.15);
+}
+

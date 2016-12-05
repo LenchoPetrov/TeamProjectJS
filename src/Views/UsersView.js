@@ -5,7 +5,7 @@ export default class UserView extends Component {
         let that=this;
         let userRows = this.props.users.map(user =>
             <tr key={user._id}>
-                <td><a href="#" onClick={function(){that.props.userProfileClicked(user._id)}}>{user.username}</a></td>
+                <td><a href="#" className="users-click" onClick={function(){that.props.userProfileClicked(user._id)}}>{user.username}</a></td>
                 <td>{user.firstName}</td>
                 <td>{user.lastName}</td>
             </tr>

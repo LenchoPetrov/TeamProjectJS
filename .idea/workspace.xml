@@ -2,17 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4e8af56d-bfe7-4db5-940b-4bd94943b550" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/images/background-color.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/images/background-color2.jpg" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/App.css" afterPath="$PROJECT_DIR$/src/App.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Components/Footer.css" afterPath="$PROJECT_DIR$/src/Components/Footer.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Components/NavigationBar.css" afterPath="$PROJECT_DIR$/src/Components/NavigationBar.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Views/CreatePostView.js" afterPath="$PROJECT_DIR$/src/Views/CreatePostView.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Views/EditPostView.js" afterPath="$PROJECT_DIR$/src/Views/EditPostView.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Views/LoginView.js" afterPath="$PROJECT_DIR$/src/Views/LoginView.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Views/RegisterView.js" afterPath="$PROJECT_DIR$/src/Views/RegisterView.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/index.css" afterPath="$PROJECT_DIR$/src/index.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Views/PostsView.js" afterPath="$PROJECT_DIR$/src/Views/PostsView.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Views/UsersView.js" afterPath="$PROJECT_DIR$/src/Views/UsersView.js" />
     </list>
     <ignored path="react-example.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -63,8 +55,8 @@
       <file leaf-file-name="App.css" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/App.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="202">
-              <caret line="157" column="0" lean-forward="true" selection-start-line="157" selection-start-column="0" selection-end-line="157" selection-end-column="0" />
+            <state relative-caret-position="253">
+              <caret line="184" column="1" lean-forward="false" selection-start-line="184" selection-start-column="1" selection-end-line="184" selection-end-column="1" />
               <folding />
             </state>
           </provider>
@@ -74,7 +66,7 @@
         <entry file="file://$PROJECT_DIR$/src/Components/NavigationBar.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="102">
-              <caret line="8" column="32" lean-forward="true" selection-start-line="8" selection-start-column="32" selection-end-line="8" selection-end-column="46" />
+              <caret line="8" column="34" lean-forward="true" selection-start-line="8" selection-start-column="34" selection-end-line="8" selection-end-column="34" />
               <folding />
             </state>
           </provider>
@@ -83,8 +75,8 @@
       <file leaf-file-name="NavigationBar.css" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Components/NavigationBar.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="34">
-              <caret line="8" column="29" lean-forward="true" selection-start-line="8" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
+            <state relative-caret-position="134">
+              <caret line="8" column="37" lean-forward="false" selection-start-line="8" selection-start-column="33" selection-end-line="8" selection-end-column="37" />
               <folding />
             </state>
           </provider>
@@ -100,11 +92,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="LoginView.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Views/LoginView.js">
+      <file leaf-file-name="UsersView.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Views/UsersView.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
-              <caret line="16" column="75" lean-forward="true" selection-start-line="16" selection-start-column="75" selection-end-line="16" selection-end-column="75" />
+            <state relative-caret-position="119">
+              <caret line="7" column="54" lean-forward="false" selection-start-line="7" selection-start-column="54" selection-end-line="7" selection-end-column="54" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PostsView.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Views/PostsView.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="85">
+              <caret line="51" column="50" lean-forward="false" selection-start-line="51" selection-start-column="50" selection-end-line="51" selection-end-column="50" />
               <folding />
             </state>
           </provider>
@@ -125,16 +127,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="17">
               <caret line="1" column="0" lean-forward="true" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="RegisterView.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Views/RegisterView.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="144">
-              <caret line="9" column="71" lean-forward="false" selection-start-line="9" selection-start-column="71" selection-end-line="9" selection-end-column="71" />
               <folding />
             </state>
           </provider>
@@ -189,11 +181,9 @@
         <option value="$PROJECT_DIR$/src/Views/DeletePostView.js" />
         <option value="$PROJECT_DIR$/src/Views/HomeView.js" />
         <option value="$PROJECT_DIR$/src/Views/DetailsPostView.js" />
-        <option value="$PROJECT_DIR$/src/Views/PostsView.js" />
         <option value="$PROJECT_DIR$/src/Components/NavigationBar.js" />
         <option value="$PROJECT_DIR$/src/KinveyRequester.js" />
         <option value="$PROJECT_DIR$/src/Views/DetailsUserView.js" />
-        <option value="$PROJECT_DIR$/src/Views/UsersView.js" />
         <option value="$PROJECT_DIR$/src/App.js" />
         <option value="$PROJECT_DIR$/src/Views/CreatePostView.js" />
         <option value="$PROJECT_DIR$/src/index.css" />
@@ -202,6 +192,8 @@
         <option value="$PROJECT_DIR$/src/Views/EditPostView.js" />
         <option value="$PROJECT_DIR$/src/Components/Footer.css" />
         <option value="$PROJECT_DIR$/src/Components/NavigationBar.css" />
+        <option value="$PROJECT_DIR$/src/Views/UsersView.js" />
+        <option value="$PROJECT_DIR$/src/Views/PostsView.js" />
         <option value="$PROJECT_DIR$/src/App.css" />
       </list>
     </option>
@@ -445,12 +437,12 @@
       <workItem from="1480673520334" duration="18538000" />
       <workItem from="1480857057392" duration="722000" />
       <workItem from="1480858957367" duration="6634000" />
-      <workItem from="1480865906509" duration="10051000" />
+      <workItem from="1480865906509" duration="13084000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="78625000" />
+    <option name="totallyTimeSpent" value="81658000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="5" y="251" width="1370" height="744" extended-state="0" />
@@ -777,22 +769,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Views/UsersView.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="16" lean-forward="false" selection-start-line="8" selection-start-column="16" selection-end-line="8" selection-end-column="16" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Views/PostsView.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="399">
-          <caret line="94" column="5" lean-forward="false" selection-start-line="77" selection-start-column="3" selection-end-line="94" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Views/CreatePostView.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="229">
@@ -878,26 +854,42 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/Views/UsersView.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" column="54" lean-forward="false" selection-start-line="7" selection-start-column="54" selection-end-line="7" selection-end-column="54" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Views/PostsView.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="51" column="50" lean-forward="false" selection-start-line="51" selection-start-column="50" selection-end-line="51" selection-end-column="50" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/Components/NavigationBar.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="102">
-          <caret line="8" column="32" lean-forward="true" selection-start-line="8" selection-start-column="32" selection-end-line="8" selection-end-column="46" />
+          <caret line="8" column="34" lean-forward="true" selection-start-line="8" selection-start-column="34" selection-end-line="8" selection-end-column="34" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Components/NavigationBar.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="8" column="29" lean-forward="true" selection-start-line="8" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
+        <state relative-caret-position="134">
+          <caret line="8" column="37" lean-forward="false" selection-start-line="8" selection-start-column="33" selection-end-line="8" selection-end-column="37" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/App.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="202">
-          <caret line="157" column="0" lean-forward="true" selection-start-line="157" selection-start-column="0" selection-end-line="157" selection-end-column="0" />
+        <state relative-caret-position="253">
+          <caret line="184" column="1" lean-forward="false" selection-start-line="184" selection-start-column="1" selection-end-line="184" selection-end-column="1" />
           <folding />
         </state>
       </provider>

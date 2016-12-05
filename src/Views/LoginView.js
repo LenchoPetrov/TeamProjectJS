@@ -7,14 +7,14 @@ class LoginView extends Component{
                 <h1>Login</h1>
                 <label>
                     <div>Username:</div>
-                    <input type="text" name="username" required ref={e=>this.usernameField=e}/>
+                    <input type="text" className="form-control hvr-grow" name="username" required ref={e=>this.usernameField=e}/>
                 </label>
                 <label>
                     <div>Password:</div>
-                    <input type="password" name="password" required ref={e=>this.passwordField=e}/>
+                    <input type="password" className="form-control hvr-grow" name="password" required ref={e=>this.passwordField=e}/>
                 </label>
                 <div>
-                    <input type="submit" value="Login"/>
+                    <input type="submit" className="my-btns hvr-pulse" value="Login"/>
                 </div>
             </form>
         )

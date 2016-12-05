@@ -7,27 +7,27 @@ class CreatePostView extends Component{
                 <h1>Create Post</h1>
                 <label>
                     <div>Author:</div>
-                    <input type="text" name="author" required
+                    <input type="text" className="form-control" name="author" required
                            defaultValue={this.props.author}
                            ref={e => this.authorField = e} disabled />
                 </label>
                 <label>
                     <div>Title:</div>
-                    <input type="text" name="title" required
+                    <input type="text" className="form-control" name="title" required
                            ref={e => this.titleField = e} />
                 </label>
                 <label>
                     <div>Body:</div>
-                    <textarea name="body" rows="10"
+                    <textarea name="body" rows="10" className="form-control"
                               ref={e => this.bodyField = e} />
                 </label>
                 <label>
                     <div>Tags:</div>
-                    <input type="text" name="tags"
+                    <input type="text" name="tags" className="form-control"
                            ref={e => this.tagsField = e} />
                 </label>
                 <div>
-                    <input type="submit" value="Create" />
+                    <input type="submit" className="my-btns hvr-pulse" value="Create" />
                 </div>
             </form>
         )

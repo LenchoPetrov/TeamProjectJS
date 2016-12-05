@@ -321,7 +321,7 @@ class App extends Component {
         function loadUserSuccess(post){
             let arrPosts = [];
             for(let i in post){
-                if(post[i]._acl.creator == this.state.userId){
+                if(post[i]._acl.creator == userId){
                     arrPosts.push(post[i]);
                 }
             }

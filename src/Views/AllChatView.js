@@ -5,7 +5,9 @@ class AllChatView extends Component{
         super();
         this.state={inputField:''}
     }
+
     render(){
+
         let chatMessages=this.props.messages.map((m,i)=><div className="message" key={i}><i>{m.author}</i> : {m.body}</div>);
         return(
                 <div id="message-box">
@@ -15,7 +17,7 @@ class AllChatView extends Component{
                         <label >
                             <div>Write message:</div>
                             <input type="text"  name="message" required
-                                   onChange={this.handleChange}
+                                   onChange={this.handleChange.bind(this)}
                                    value={this.state.inputField}
                                    ref={e => this.messageField = e} />
                         </label>
@@ -26,13 +28,14 @@ class AllChatView extends Component{
                 </div>
         )
     }
+
     handleChange(event){
-        this.setState({state:event.target.value})
+        this.setState({inputField:event.target.value})
     }
     submitForm(event){
         event.preventDefault();
-        this.props.onsubmit(this.messageField.value,'allchat')
-        this.setState({state:''})
+        this.props.onsubmit(this.messageField.value,'allchat');
+        this.setState({inputField:''})
     }
 }
 

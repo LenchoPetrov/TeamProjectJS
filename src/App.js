@@ -18,6 +18,10 @@ import ChatRoomView from './Views/ChatRoomView';
 import AllChatView from './Views/AllChatView'
 import PrivateChatView from './Views/PrivateChatView'
 
+import CreateCommentView from './Views/CreateCommentView';
+import EditCommentView from './Views/EditCommentView';
+import DeleteConfirmationView from './Views/DeleteConfirmationView';
+
 
 
 import $ from 'jquery';
@@ -190,16 +194,34 @@ class App extends Component {
     }
     loadPostDetails(postId){
         let that=this;
-        KinveyRequester.findPostById(postId)
-            .then(findPostById.bind(this));
-        function findPostById(post){
-            this.showView(<DetailsPostView
-                author={post.author}
-                date={post.date}
-                title={post.title}
-                body={post.body}
-                date={that.parseDate(post.date)}
-            />)
+        getCommentsNPost(postId);
+        function getCommentsNPost(postId) {
+            let comments = [];
+            KinveyRequester.getAllComments().then(function (data) {
+                if(data.length>0) {
+                    comments = data.filter(x=>x.postId==postId);
+                    comments.sort((a,b)=>new Date(Number(b.date))-new Date(Number(a.date)));
+                }
+                KinveyRequester.findPostById(postId)
+                    .then(findPostById.bind(that));
+                function findPostById(post){
+                    that.showView(<DetailsPostView
+                        deleteCommentClicked={that.showDeleteConfirmationView.bind(that)}
+                        editCommentClicked={that.showEditCommentView.bind(that)}
+                        makeCommentClicked={that.showCommentView.bind(that)}
+                        userId={that.state.userId}
+                        postId={post._id}
+                        author={post.author}
+                        title={post.title}
+                        body={post.body}
+                        date={that.parseDate(post.date)}
+                        comments={comments}
+                        getTime={that.getTimeFromDate}
+                        parseDate={that.parseDate}
+                    />)
+                }
+
+            });
         }
         
     }
@@ -377,6 +399,80 @@ class App extends Component {
         }
 
     }
+
+    //comment functions
+
+
+    showCommentView(postId){
+        let view = <CreateCommentView
+            postId={postId}
+            onsubmit={this.postComment.bind(this)}
+        />;
+        ReactDOM.render(view,document.getElementById('createCommentDiv'));
+    }
+
+    postComment(commentBody,postId,date){
+        let that = this;
+        KinveyRequester.postComment(postId,commentBody,date,this.state.username).then(
+            // this.loadPostDetails(postId))
+            function () {
+                ReactDOM.unmountComponentAtNode(document.getElementById('createCommentDiv'));
+                that.loadPostDetails(postId);
+            }
+        )
+    }
+    showDeleteConfirmationView(commentId,commentBody,postId){
+        let view = <DeleteConfirmationView
+            postId={postId}
+            commentId={commentId}
+            commentBody={commentBody}
+            yesClicked={this.deleteComment.bind(this)}
+            cancelClicked={cancelConfirmation}
+        />;
+        ReactDOM.render(view,document.getElementById('deleteCommentDiv'));
+        function cancelConfirmation() {
+            ReactDOM.unmountComponentAtNode(document.getElementById('deleteCommentDiv'));
+        }
+    }
+
+    deleteComment(commentId,postId){
+        let that =this;
+        KinveyRequester.deleteComment(commentId).then(function () {
+            ReactDOM.unmountComponentAtNode(document.getElementById('deleteCommentDiv'));
+            that.loadPostDetails(postId);
+        })
+    }
+
+
+    showEditCommentView(commentId,postId,commentBody,date){
+        let view = <EditCommentView
+            date={date}
+            postId={postId}
+            commentId={commentId}
+            commentBody={commentBody}
+            onsubmit={this.editComment.bind(this)}
+        />;
+        ReactDOM.render(view,document.getElementById('createCommentDiv'));
+    }
+
+    editComment(commentId,commentBody,postId,date){
+        let that = this;
+        KinveyRequester.editComment(commentId,postId,commentBody,date,this.state.username).then(
+            // this.loadPostDetails(postId))
+            function () {
+                ReactDOM.unmountComponentAtNode(document.getElementById('createCommentDiv'));
+                that.loadPostDetails(postId);
+            }
+        )
+    }
+
+    getTimeFromDate(dateString){
+        let date=new Date(Number(dateString));
+        let hours="0"+date.getHours();
+        let minutes = "0"+date.getMinutes();
+        return `${hours.slice(-2)}:${minutes.slice(-2)}`
+    }
+
 }
 
 export default App;

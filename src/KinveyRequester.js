@@ -105,9 +105,45 @@ let KinveyRequester=(function(){
         })
     }
 
-    return {loginUser,registerUser,loadPosts,createPost,findPostById,editPost,deletePost,loadUsers,findUserById,loadChat,createChatMessage}
+    function getAllComments(){
+        return $.ajax({
+            url:kinveyBaseUrl+'appdata/'+kinveyAppKey+'/comments',
+            headers:getAuthHeaders()
+        })
+    }
 
-    return {loginUser,registerUser,loadPosts,createPost,findPostById,editPost,deletePost,loadUsers,findUserById}
+    function postComment(postId,commentBody,date,author) {
+        let data = {postId:postId,body:commentBody,author:author,date:date};
+        return $.ajax({
+            method:'POST',
+            url:kinveyBaseUrl+'appdata/'+kinveyAppKey+'/comments',
+            headers:getAuthHeaders(),
+            data:data
+        })
+    }
+
+    function editComment(commentId,postId,commentBody,date,author) {
+        let data = {postId:postId,body:commentBody,author:author,date:date};
+        return $.ajax({
+            method:'PUT',
+            url:kinveyBaseUrl+'appdata/'+kinveyAppKey+'/comments/'+commentId,
+            headers:getAuthHeaders(),
+            data:data
+        })
+    }
+
+    function deleteComment(commentId) {
+        return $.ajax({
+            method:'DELETE',
+            url:kinveyBaseUrl+'appdata/'+kinveyAppKey+'/comments/'+commentId,
+            headers:getAuthHeaders(),
+        })
+    }
+
+    return {loginUser,registerUser,loadPosts,createPost,findPostById,editPost,deletePost,loadUsers,
+        findUserById,loadChat,createChatMessage,getAllComments,deleteComment,editComment,postComment}
+
+    // return {loginUser,registerUser,loadPosts,createPost,findPostById,editPost,deletePost,loadUsers,findUserById}
 
 })();
 

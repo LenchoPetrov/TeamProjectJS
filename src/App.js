@@ -315,7 +315,21 @@ class App extends Component {
                 lastName={user.lastName}
             />)
         }
+        KinveyRequester.loadPosts()
+            .then(loadUserSuccess.bind(this));
 
+        function loadUserSuccess(post){
+            let arrPosts = [];
+            for(let i in post){
+                if(post[i]._acl.creator == this.state.userId){
+                    arrPosts.push(post[i]);
+                }
+            }
+            this.showView(<DetailsUserView
+                posts={arrPosts}
+                parseDate={this.parseDate}
+            />)
+        }
     }
 }
 

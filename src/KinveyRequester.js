@@ -14,11 +14,11 @@ let KinveyRequester=(function(){
             headers:kinveyAppAuthHeaders
         })
     }
-    function registerUser(username,password){
+    function registerUser(username,firstName,lastName,password){
         return $.ajax({
             method:"POST",
             url:kinveyBaseUrl+'user/'+kinveyAppKey,
-            data:{username,password},
+            data:{username, firstName,lastName, password},
             headers:kinveyAppAuthHeaders
         })
     }
@@ -69,7 +69,42 @@ let KinveyRequester=(function(){
         }
     }
 
-    return {loginUser,registerUser,loadPosts,createPost,findPostById,editPost,deletePost}
+    function loadUsers(){
+        return $.ajax({
+            method:"GET",
+            url:kinveyBaseUrl+'user/'+kinveyAppKey,
+            headers:getAuthHeaders()
+        })
+    }
+    function loadChat(){
+        return $.ajax({
+            method:"GET",
+            url:kinveyBaseUrl+'appdata/'+kinveyAppKey+'/chatroom',
+            headers:getAuthHeaders()
+        })
+    }
+    function createChatMessage(messageText,targetId){
+        let postData={
+            author:sessionStorage.getItem('username'),
+            body:messageText,
+            target:targetId,
+            posterId:sessionStorage.getItem('userId')
+        };
+        return $.ajax({
+            method:"POST",
+            url:kinveyBaseUrl+'appdata/'+kinveyAppKey+'/chatroom',
+            data:postData,
+            headers:getAuthHeaders()
+        })
+    }
+    function findUserById(userId){
+        return $.ajax({
+            method:"GET",
+            url:kinveyBaseUrl+'user/'+kinveyAppKey+'/'+userId,
+            headers:getAuthHeaders()
+        })
+    }
+    return {loginUser,registerUser,loadPosts,createPost,findPostById,editPost,deletePost,loadUsers,findUserById,loadChat,createChatMessage}
 })();
 
 export default KinveyRequester;

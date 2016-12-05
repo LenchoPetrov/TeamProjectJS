@@ -26,7 +26,7 @@ export default class PostsView extends Component {
             let tags=[];
             let id=0;
             for(let tagString of tagsArr){
-                tags.push(<button className="tag" key={id} onClick={function(){that.tagClicked(tagString)}}>{tagString}</button>)
+                tags.push(<button className="tag my-btns hvr-grow" key={id} onClick={function(){that.tagClicked(tagString)}}>{tagString}</button>)
                 id++;
             }
             return <span>{tags}</span>;
@@ -46,14 +46,14 @@ export default class PostsView extends Component {
                 <h1>Posts</h1>
                 <div className="search-bar">
                     Search by
-                    <select onChange={this.selectChange.bind(this)} value={this.state.selected}>
-                        <option value="title">Title</option>
-                        <option value="author">Author</option>
-                        <option value="tag">Tag</option>
+                    <select className="form-control hvr-grow search-post" onChange={this.selectChange.bind(this)} value={this.state.selected}>
+                        <option className="options" value="title">Title</option>
+                        <option className="options" value="author">Author</option>
+                        <option className="options" value="tag">Tag</option>
                     </select>
 
-                    <input type="text" onChange={this.textChange.bind(this)}></input>
-                    <button onClick={this.buttonClicked.bind(this)}>Search</button>
+                    <input type="text" className="form-control hvr-grow search-post" onChange={this.textChange.bind(this)}></input>
+                    <button className="my-btns hvr-pulse search-post" onClick={this.buttonClicked.bind(this)}>Search</button>
                 </div>
 
                 <table className="posts-table">
@@ -79,18 +79,18 @@ export default class PostsView extends Component {
         if (post._acl.creator === userId)
             return (
                 <td>
-                    <input type="button" value="Edit"
+                    <input type="button" value="Edit" className="my-btns hvr-grow"
                            onClick={this.props.editPostClicked.bind(this, post._id)} />
                     &nbsp;
-                    <input type="button" value="Delete"
+                    <input type="button" value="Delete" className="my-btns hvr-grow"
                            onClick={this.props.deletePostClicked.bind(this, post._id)} />
                     &nbsp;
-                    <input type="button" value="Details"
+                    <input type="button" value="Details" className="my-btns hvr-grow"
                            onClick={this.props.getDetailsPostClicked.bind(this, post._id)} />
                 </td>
             );
         else
-            return <td> <input type="button" value="Details"
+            return <td> <input type="button" value="Details" className="my-btns hvr-grow"
                                onClick={this.props.getDetailsPostClicked.bind(this, post._id)} /></td>;
     }
 }

@@ -12,6 +12,11 @@ import CreatePostView from './Views/CreatePostView';
 import EditPostView from './Views/EditPostView';
 import DeletePostView from './Views/DeletePostView';
 import DetailsPostView from './Views/DetailsPostView';
+import UserView from './Views/UsersView';
+import DetailsUserView from './Views/DetailsUserView';
+import ChatRoomView from './Views/ChatRoomView';
+import AllChatView from './Views/AllChatView'
+import PrivateChatView from './Views/PrivateChatView'
 
 
 import $ from 'jquery';
@@ -51,6 +56,8 @@ class App extends Component {
                 registerClicked={this.showRegisterView.bind(this)}
                 postsClicked={this.showPostsView.bind(this)}
                 createPostClicked={this.showCreatePostView.bind(this)}
+                usersClicked={this.showUsersView.bind(this)}
+                chatRoomClicked={this.showChatRoomView.bind(this)}
                 logoutClicked={this.logout.bind(this)}
             />
             <div id="loadingBox">Loading...</div>
@@ -118,6 +125,36 @@ class App extends Component {
                 parseDate={this.parseDate.bind(this)}
             />)
         }
+    }
+    showChatRoomView(targetId,targetName){
+        
+        let chatPromise=KinveyRequester.loadChat();
+        let userPromise=KinveyRequester.loadUsers();
+
+        Promise.all([chatPromise,userPromise])
+            .then(loadChatSuccess.bind(this));
+
+        function loadChatSuccess([messages,users]){
+            users=users.filter(u=>u.username!=sessionStorage.getItem('username'));
+            if(targetId=='allchat'){
+                let publicMessages=messages.filter(m=>m.target=='allchat');
+                if(publicMessages.length>15){
+                    publicMessages=publicMessages.slice(Math.max(publicMessages.length - 15, 1))
+                }
+                this.showView(<ChatRoomView  reloadPage={this.showChatRoomView.bind(this)} users={users} chatType={<AllChatView onsubmit={this.createMessage.bind(this)} messages={publicMessages}/>}/>);
+            }
+            else{
+                let privateMessages=messages
+                    .filter(m=>m.target==targetId || m.target==sessionStorage.getItem('userId'))
+                    .filter(m=>m.posterId==sessionStorage.getItem('userId') || m.posterId==targetId);
+                if(privateMessages.length>15){
+                    privateMessages=privateMessages.slice(Math.max(privateMessages.length - 15, 1))
+                }
+                this.showView(<ChatRoomView reloadPage={this.showChatRoomView.bind(this)} users={users} chatType={<PrivateChatView onsubmit={this.createMessage.bind(this)} name={targetName} target={targetId} messages={privateMessages}/>}/>);
+            }
+
+        }
+        
     }
     showFilteredPostsView(posts){
         this.showInfo('Posts loaded.');
@@ -218,6 +255,15 @@ class App extends Component {
         }
     }
 
+    createMessage(messageText,targetId,targetName){
+
+        KinveyRequester.createChatMessage(messageText,targetId)
+            .then(createMessageSuccess.bind(this))
+        function createMessageSuccess(){
+            this.showChatRoomView(targetId,targetName);
+        }
+    }
+
     login(username,password){
         KinveyRequester.loginUser(username,password)
             .then(loginSuccess.bind(this));
@@ -227,8 +273,8 @@ class App extends Component {
             this.showPostsView();
         }
     }
-    register(username,password){
-        KinveyRequester.registerUser(username,password)
+    register(username,firstName,lastName,password){
+        KinveyRequester.registerUser(username,firstName,lastName,password)
             .then(registerSuccess.bind(this));
         function registerSuccess(userInfo){
             this.saveAuthInSession(userInfo);
@@ -289,7 +335,31 @@ class App extends Component {
             text=text.substr(0,maxLength)+'...'
         return text;
     }
-    
+
+    showUsersView(){
+        KinveyRequester.loadUsers()
+            .then(loadUsersSuccess.bind(this));
+        function loadUsersSuccess(users){
+            this.showInfo('Users loaded.');
+            this.showView(<UserView
+                users={users}
+                userProfileClicked={this.loadUsersDetails.bind(this)}
+            />)
+        }
+    }
+
+    loadUsersDetails(userId){
+        KinveyRequester.findUserById(userId)
+            .then(findUserById.bind(this));
+        function findUserById(user){
+            this.showView(<DetailsUserView
+                username={user.username}
+                firstName={user.firstName}
+                lastName={user.lastName}
+            />)
+        }
+
+    }
 }
 
 export default App;

@@ -23,7 +23,6 @@ import EditCommentView from './Views/EditCommentView';
 import DeleteConfirmationView from './Views/DeleteConfirmationView';
 
 
-
 import $ from 'jquery';
 import KinveyRequester from './KinveyRequester'
 

@@ -104,7 +104,11 @@ let KinveyRequester=(function(){
             headers:getAuthHeaders()
         })
     }
+
     return {loginUser,registerUser,loadPosts,createPost,findPostById,editPost,deletePost,loadUsers,findUserById,loadChat,createChatMessage}
+
+    return {loginUser,registerUser,loadPosts,createPost,findPostById,editPost,deletePost,loadUsers,findUserById}
+
 })();
 
 export default KinveyRequester;

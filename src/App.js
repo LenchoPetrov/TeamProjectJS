@@ -19,6 +19,7 @@ import AllChatView from './Views/AllChatView'
 import PrivateChatView from './Views/PrivateChatView'
 
 
+
 import $ from 'jquery';
 import KinveyRequester from './KinveyRequester'
 
@@ -356,6 +357,22 @@ class App extends Component {
                 username={user.username}
                 firstName={user.firstName}
                 lastName={user.lastName}
+            />)
+        }
+
+        KinveyRequester.loadPosts()
+            .then(loadUserSuccess.bind(this));
+
+        function loadUserSuccess(post){
+            let arrPosts = [];
+            for(let i in post){
+                if(post[i]._acl.creator == userId){
+                    arrPosts.push(post[i]);
+                }
+            }
+            this.showView(<DetailsUserView
+                posts={arrPosts}
+                parseDate={this.parseDate}
             />)
         }
 

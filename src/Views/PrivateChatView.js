@@ -15,7 +15,7 @@ class PrivateChatView extends Component{
                     <label >
                         <div>Write message:</div>
                         <input type="text"  name="message" required
-                               onChange={this.handleChange}
+                               onChange={this.handleChange.bind(this)}
                                value={this.state.inputField}
                                ref={e => this.messageField = e} />
                     </label>
@@ -27,12 +27,12 @@ class PrivateChatView extends Component{
         )
     }
     handleChange(event){
-        this.setState({state:event.target.value})
+        this.setState({inputField:event.target.value})
     }
     submitForm(event){
         event.preventDefault();
         this.props.onsubmit(this.messageField.value,this.props.target,this.props.name)
-        this.setState({state:''})
+        this.setState({inputField:''})
     }
 }
 

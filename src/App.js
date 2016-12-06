@@ -21,6 +21,7 @@ import PrivateChatView from './Views/PrivateChatView'
 import CreateCommentView from './Views/CreateCommentView';
 import EditCommentView from './Views/EditCommentView';
 import DeleteConfirmationView from './Views/DeleteConfirmationView';
+import SideBar from './Components/SideBar'
 
 import $ from 'jquery';
 import KinveyRequester from './KinveyRequester'
@@ -79,6 +80,7 @@ class App extends Component {
                 chatRoomClicked={this.showChatRoomView.bind(this)}
                 logoutClicked={this.logout.bind(this)}
             />
+              <div id="sideBar"></div>
             <div id="loadingBox">Loading...</div>
             <div id="errorBox">Error msg</div>
             <div id="infoBox">Info msg</div>

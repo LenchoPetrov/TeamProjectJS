@@ -76,6 +76,27 @@ let KinveyRequester=(function(){
             headers:getAuthHeaders()
         })
     }
+    function loadChat(){
+        return $.ajax({
+            method:"GET",
+            url:kinveyBaseUrl+'appdata/'+kinveyAppKey+'/chatroom',
+            headers:getAuthHeaders()
+        })
+    }
+    function createChatMessage(messageText,targetId){
+        let postData={
+            author:sessionStorage.getItem('username'),
+            body:messageText,
+            target:targetId,
+            posterId:sessionStorage.getItem('userId')
+        };
+        return $.ajax({
+            method:"POST",
+            url:kinveyBaseUrl+'appdata/'+kinveyAppKey+'/chatroom',
+            data:postData,
+            headers:getAuthHeaders()
+        })
+    }
     function findUserById(userId){
         return $.ajax({
             method:"GET",
@@ -83,6 +104,7 @@ let KinveyRequester=(function(){
             headers:getAuthHeaders()
         })
     }
+
 
     function editUser(userId, firstName, lastName, mail, place, facebookProfile, twitterProfile, googleProfile){
         let userData = {userId, firstName, lastName, mail, place, facebookProfile, twitterProfile, googleProfile};
@@ -93,7 +115,45 @@ let KinveyRequester=(function(){
             data:userData
         })
     }
-    return {loginUser,registerUser,loadPosts,createPost,findPostById,editPost,deletePost,loadUsers,findUserById,editUser}
+
+    function getAllComments(){
+        return $.ajax({
+            url:kinveyBaseUrl+'appdata/'+kinveyAppKey+'/comments',
+            headers:getAuthHeaders()
+        })
+    }
+
+    function postComment(postId,commentBody,date,author) {
+        let data = {postId:postId,body:commentBody,author:author,date:date};
+        return $.ajax({
+            method:'POST',
+            url:kinveyBaseUrl+'appdata/'+kinveyAppKey+'/comments',
+            headers:getAuthHeaders(),
+            data:data
+        })
+    }
+
+    function editComment(commentId,postId,commentBody,date,author) {
+        let data = {postId:postId,body:commentBody,author:author,date:date};
+        return $.ajax({
+            method:'PUT',
+            url:kinveyBaseUrl+'appdata/'+kinveyAppKey+'/comments/'+commentId,
+            headers:getAuthHeaders(),
+            data:data
+        })
+    }
+
+    function deleteComment(commentId) {
+        return $.ajax({
+            method:'DELETE',
+            url:kinveyBaseUrl+'appdata/'+kinveyAppKey+'/comments/'+commentId,
+            headers:getAuthHeaders(),
+        })
+    }
+
+    return {loginUser,registerUser,loadPosts,createPost,findPostById,editPost,deletePost,loadUsers,
+        findUserById,loadChat,createChatMessage,getAllComments,deleteComment,editComment,postComment,editUser}
+
 })();
 
 export default KinveyRequester;

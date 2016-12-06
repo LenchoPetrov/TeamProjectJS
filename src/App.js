@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import './App.css';
 
@@ -15,18 +15,23 @@ import DetailsPostView from './Views/DetailsPostView';
 import UserView from './Views/UsersView';
 import DetailsUserView from './Views/DetailsUserView';
 import EditUserProfileView from './Views/EditUserProfileView';
-
+import ChatRoomView from './Views/ChatRoomView';
+import AllChatView from './Views/AllChatView'
+import PrivateChatView from './Views/PrivateChatView'
+import CreateCommentView from './Views/CreateCommentView';
+import EditCommentView from './Views/EditCommentView';
+import DeleteConfirmationView from './Views/DeleteConfirmationView';
 
 import $ from 'jquery';
 import KinveyRequester from './KinveyRequester'
 
 class App extends Component {
-    
-    constructor(props){
+
+    constructor(props) {
         super(props);
-        this.state={
-            username:sessionStorage.getItem('username'),
-            userId:sessionStorage.getItem('userId')
+        this.state = {
+            username: sessionStorage.getItem('username'),
+            userId: sessionStorage.getItem('userId')
         }
     }
 
@@ -55,6 +60,7 @@ class App extends Component {
                 postsClicked={this.showPostsView.bind(this)}
                 createPostClicked={this.showCreatePostView.bind(this)}
                 usersClicked={this.showUsersView.bind(this)}
+                chatRoomClicked={this.showChatRoomView.bind(this)}
                 logoutClicked={this.logout.bind(this)}
             />
             <div id="loadingBox">Loading...</div>
@@ -66,7 +72,8 @@ class App extends Component {
         </div>
       );
     }
-    handleAjaxError(event,response){
+
+    handleAjaxError(event, response) {
         let errorMsg = JSON.stringify(response);
         if (response.readyState === 0)
             errorMsg = "Cannot connect due to network error.";
@@ -74,11 +81,11 @@ class App extends Component {
             response.responseJSON.description)
             errorMsg = response.responseJSON.description;
         this.showError(errorMsg);
-
     }
+
     showInfo(message) {
         $('#infoBox').text(message).show();
-        setTimeout(function() {
+        setTimeout(function () {
             $('#infoBox').fadeOut();
         }, 3000);
     }
@@ -87,7 +94,7 @@ class App extends Component {
         $('#errorBox').text("Error: " + errorMsg).show();
     }
 
-    showView(reactComponent){
+    showView(reactComponent) {
         ReactDOM.render(
             reactComponent,
             document.getElementById('main')
@@ -97,19 +104,32 @@ class App extends Component {
     }
 
 
-    showHomeView(){
-        this.showView(<HomeView username={this.state.username} />)
+    showHomeView() {
+        KinveyRequester.loadPosts()
+            .then(loadPostSuccess.bind(this));
+        function loadPostSuccess(posts) {
+            //compare based on last modified time
+            let post = posts.sort((postA, postB) => postA._kmd.lmt < postB._kmd.lmt)[0];
+            this.showView(<HomeView
+                post={post}
+                cutText={this.cutText.bind(this)}
+                parseDate={this.parseDate.bind(this)}
+            />)
+        }
     }
-    showLoginView(){
+
+    showLoginView() {
         this.showView(<LoginView onsubmit={this.login.bind(this)}/>)
     }
-    showRegisterView(){
+
+    showRegisterView() {
         this.showView(<RegisterView onsubmit={this.register.bind(this)}/>)
     }
-    showPostsView(){
+
+    showPostsView() {
         KinveyRequester.loadPosts()
             .then(loadPostsSuccess.bind(this));
-        function loadPostsSuccess(posts){
+        function loadPostsSuccess(posts) {
             this.showInfo('Posts loaded.');
             this.showView(<PostsView
                 posts={posts}
@@ -123,7 +143,43 @@ class App extends Component {
             />)
         }
     }
-    showFilteredPostsView(posts){
+    showChatRoomView(targetId,targetName){
+
+        let chatPromise=KinveyRequester.loadChat();
+        let userPromise=KinveyRequester.loadUsers();
+
+        Promise.all([chatPromise, userPromise])
+            .then(loadChatSuccess.bind(this));
+
+        function loadChatSuccess([messages,users]) {
+            users = users.filter(u=>u.username !== sessionStorage.getItem('username'));
+            if (targetId === 'allchat') {
+                let publicMessages = messages.filter(m=>m.target === 'allchat');
+                if (publicMessages.length > 15) {
+                    publicMessages = publicMessages.slice(Math.max(publicMessages.length - 15, 1))
+                }
+                this.showView(<ChatRoomView reloadPage={this.showChatRoomView.bind(this)} users={users}
+                                            chatType={<AllChatView onsubmit={this.createMessage.bind(this)}
+                                                                   messages={publicMessages}/>}/>);
+            }
+            else {
+                let privateMessages = messages
+                    .filter(m=>m.target === targetId || m.target === sessionStorage.getItem('userId'))
+                    .filter(m=>m.posterId === sessionStorage.getItem('userId') || m.posterId === targetId);
+                if (privateMessages.length > 15) {
+                    privateMessages = privateMessages.slice(Math.max(privateMessages.length - 15, 1))
+                }
+                this.showView(<ChatRoomView reloadPage={this.showChatRoomView.bind(this)} users={users}
+                                            chatType={<PrivateChatView onsubmit={this.createMessage.bind(this)}
+                                                                       name={targetName} target={targetId}
+                                                                       messages={privateMessages}/>}/>);
+            }
+
+        }
+
+    }
+
+    showFilteredPostsView(posts) {
         this.showInfo('Posts loaded.');
         this.showView(<PostsView
             posts={posts}
@@ -136,43 +192,64 @@ class App extends Component {
             parseDate={this.parseDate.bind(this)}
         />)
     }
-    showCreatePostView(){
+
+    showCreatePostView() {
         this.showView(<CreatePostView author={this.state.username} onsubmit={this.createPost.bind(this)}/>)
     }
 
-    createPost(title,author,body,tags){
-        let date=Date.now();
+    createPost(title, author, body, tags) {
+        let date = Date.now();
 
-        if(tags.length>0) {
+        if (tags.length > 0) {
             tags = tags.split(',').map(tag=>tag.trim().toLowerCase());
         }
 
-        KinveyRequester.createPost(title,author,body,date,tags)
+        KinveyRequester.createPost(title, author, body, date, tags)
             .then(createPostSuccess.bind(this));
         function createPostSuccess() {
             this.showInfo('Post created.');
             this.showPostsView();
         }
     }
-    loadPostDetails(postId){
-        let that=this;
-        KinveyRequester.findPostById(postId)
-            .then(findPostById.bind(this));
-        function findPostById(post){
-            this.showView(<DetailsPostView
-                author={post.author}
-                date={post.date}
-                title={post.title}
-                body={post.body}
-                date={that.parseDate(post.date)}
-            />)
+
+    loadPostDetails(postId) {
+        let that = this;
+        getCommentsNPost(postId);
+        function getCommentsNPost(postId) {
+            let comments = [];
+            KinveyRequester.getAllComments().then(function (data) {
+                if (data.length > 0) {
+                    comments = data.filter(x=>x.postId === postId);
+                    comments.sort((a, b)=>new Date(Number(b.date)) - new Date(Number(a.date)));
+                }
+                KinveyRequester.findPostById(postId)
+                    .then(findPostById.bind(that));
+                function findPostById(post) {
+                    that.showView(<DetailsPostView
+                        deleteCommentClicked={that.showDeleteConfirmationView.bind(that)}
+                        editCommentClicked={that.showEditCommentView.bind(that)}
+                        makeCommentClicked={that.showCommentView.bind(that)}
+                        userId={that.state.userId}
+                        postId={post._id}
+                        author={post.author}
+                        title={post.title}
+                        body={post.body}
+                        date={that.parseDate(post.date)}
+                        comments={comments}
+                        getTime={that.getTimeFromDate}
+                        parseDate={that.parseDate}
+                    />)
+                }
+
+            });
         }
-        
+
     }
-    loadPostForEdit(postId){
+
+    loadPostForEdit(postId) {
         KinveyRequester.findPostById(postId)
             .then(findPostById.bind(this));
-        function findPostById(post){
+        function findPostById(post) {
             this.showView(<EditPostView
                 postId={post._id}
                 author={post.author}
@@ -186,10 +263,10 @@ class App extends Component {
         }
     }
 
-    loadPostForDelete(postId){
+    loadPostForDelete(postId) {
         KinveyRequester.findPostById(postId)
             .then(findPostById.bind(this));
-        function findPostById(post){
+        function findPostById(post) {
             this.showView(<DeletePostView
                 postId={post._id}
                 author={post.author}
@@ -202,7 +279,7 @@ class App extends Component {
         }
     }
 
-    deletePost(postId){
+    deletePost(postId) {
         KinveyRequester.deletePost(postId)
             .then(deletePostSuccess.bind(this));
         function deletePostSuccess() {
@@ -210,11 +287,12 @@ class App extends Component {
             this.showPostsView();
         }
     }
-    editPost(postId,title,author,body,date,tags){
-        if(tags.length>0) {
+
+    editPost(postId, title, author, body, date, tags) {
+        if (tags.length > 0) {
             tags = tags.split(',').map(tag=>tag.trim().toLowerCase());
         }
-        KinveyRequester.editPost(postId,title,author,body,date,tags)
+        KinveyRequester.editPost(postId, title, author, body, date, tags)
             .then(editPostSuccess.bind(this));
         function editPostSuccess() {
             this.showInfo('Post edited.');
@@ -222,82 +300,94 @@ class App extends Component {
         }
     }
 
-    login(username,password){
-        KinveyRequester.loginUser(username,password)
+    createMessage(messageText, targetId, targetName) {
+
+        KinveyRequester.createChatMessage(messageText, targetId)
+            .then(createMessageSuccess.bind(this))
+        function createMessageSuccess() {
+            this.showChatRoomView(targetId, targetName);
+        }
+    }
+
+    login(username, password) {
+        KinveyRequester.loginUser(username, password)
             .then(loginSuccess.bind(this));
-        function loginSuccess(userInfo){
+        function loginSuccess(userInfo) {
             this.saveAuthInSession(userInfo);
             this.showInfo('Login successful.');
             this.showPostsView();
         }
     }
+
     register(username,firstName,lastName,image,password){
         KinveyRequester.registerUser(username,firstName,lastName,image,password)
             .then(registerSuccess.bind(this));
-        function registerSuccess(userInfo){
+        function registerSuccess(userInfo) {
             this.saveAuthInSession(userInfo);
             this.showInfo('Register successful.');
             this.showPostsView();
         }
     }
-    logout(){
+
+    logout() {
         sessionStorage.clear();
         this.setState({
-            username:null,
-            userId:null
+            username: null,
+            userId: null
         })
         this.showInfo('Logout successful.')
         this.showHomeView();
     }
-    saveAuthInSession(userInfo){
-        sessionStorage.setItem('authToken',userInfo._kmd.authtoken);
-        sessionStorage.setItem('userId',userInfo._id);
-        sessionStorage.setItem('username',userInfo.username);
+
+    saveAuthInSession(userInfo) {
+        sessionStorage.setItem('authToken', userInfo._kmd.authtoken);
+        sessionStorage.setItem('userId', userInfo._id);
+        sessionStorage.setItem('username', userInfo.username);
 
         this.setState({
-            username:userInfo.username,
-            userId:userInfo._id
+            username: userInfo.username,
+            userId: userInfo._id
         })
     }
 
-    searchPosts(searchVal,searchText){
+    searchPosts(searchVal, searchText) {
         KinveyRequester.loadPosts()
             .then(loadPostsSuccess.bind(this));
-        function loadPostsSuccess(posts){
-            switch(searchVal) {
+        function loadPostsSuccess(posts) {
+            switch (searchVal) {
                 case 'author':
-                    posts=posts.filter(post=>post.author.toLowerCase().indexOf(searchText)!=-1);
+                    posts = posts.filter(post=>post.author.toLowerCase().indexOf(searchText) !== -1);
                     this.showFilteredPostsView(posts);
                     break;
                 case 'title':
-                    posts=posts.filter(post=>post.title.toLowerCase().indexOf(searchText)!=-1);
+                    posts = posts.filter(post=>post.title.toLowerCase().indexOf(searchText) !== -1);
                     this.showFilteredPostsView(posts);
                     break;
                 case 'tag':
-                    posts=posts.filter(post=>post.tags.indexOf(searchText)!=-1);
+                    posts = posts.filter(post=>post.tags.indexOf(searchText) !== -1);
                     this.showFilteredPostsView(posts);
                     break;
+                default: break;
             }
         }
     }
-    
 
 
-    parseDate(dateString){
-        let date=new Date(Number(dateString));
-        return `${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}`
+    parseDate(dateString) {
+        let date = new Date(Number(dateString));
+        return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`
     }
 
-    cutText(text,maxLength){
-        if(text.length>maxLength)
-            text=text.substr(0,maxLength)+'...'
+    cutText(text, maxLength) {
+        if (text.length > maxLength)
+            text = text.substr(0, maxLength) + '...'
         return text;
     }
 
-    showUsersView(){
+    showUsersView() {
         KinveyRequester.loadUsers()
             .then(loadUsersSuccess.bind(this));
-        function loadUsersSuccess(users){
+        function loadUsersSuccess(users) {
             this.showInfo('Users loaded.');
             this.showView(<UserView
                 users={users}
@@ -325,10 +415,11 @@ class App extends Component {
                 image={user.image}
             />)
         }
+
         KinveyRequester.loadPosts()
             .then(loadUserSuccess.bind(this));
 
-        function loadUserSuccess(post){
+        function loadUserSuccess(post) {
             let arrPosts = [];
             for(let i in post){
                 if(post[i]._acl.creator === userId){
@@ -361,7 +452,83 @@ class App extends Component {
                 googleProfile={user.googleProfile}
             />)
         }
+
     }
+
+    //comment functions
+
+
+    showCommentView(postId) {
+        let view = <CreateCommentView
+            postId={postId}
+            onsubmit={this.postComment.bind(this)}
+        />;
+        ReactDOM.render(view, document.getElementById('createCommentDiv'));
+    }
+
+    postComment(commentBody, postId, date) {
+        let that = this;
+        KinveyRequester.postComment(postId, commentBody, date, this.state.username).then(
+            // this.loadPostDetails(postId))
+            function () {
+                ReactDOM.unmountComponentAtNode(document.getElementById('createCommentDiv'));
+                that.loadPostDetails(postId);
+            }
+        )
+    }
+
+    showDeleteConfirmationView(commentId, commentBody, postId) {
+        let view = <DeleteConfirmationView
+            postId={postId}
+            commentId={commentId}
+            commentBody={commentBody}
+            yesClicked={this.deleteComment.bind(this)}
+            cancelClicked={cancelConfirmation}
+        />;
+        ReactDOM.render(view, document.getElementById('deleteCommentDiv'));
+        function cancelConfirmation() {
+            ReactDOM.unmountComponentAtNode(document.getElementById('deleteCommentDiv'));
+        }
+    }
+
+    deleteComment(commentId, postId) {
+        let that = this;
+        KinveyRequester.deleteComment(commentId).then(function () {
+            ReactDOM.unmountComponentAtNode(document.getElementById('deleteCommentDiv'));
+            that.loadPostDetails(postId);
+        })
+    }
+
+
+    showEditCommentView(commentId, postId, commentBody, date) {
+        let view = <EditCommentView
+            date={date}
+            postId={postId}
+            commentId={commentId}
+            commentBody={commentBody}
+            onsubmit={this.editComment.bind(this)}
+        />;
+        ReactDOM.render(view, document.getElementById('createCommentDiv'));
+    }
+
+    editComment(commentId, commentBody, postId, date) {
+        let that = this;
+        KinveyRequester.editComment(commentId, postId, commentBody, date, this.state.username).then(
+            // this.loadPostDetails(postId))
+            function () {
+                ReactDOM.unmountComponentAtNode(document.getElementById('createCommentDiv'));
+                that.loadPostDetails(postId);
+            }
+        )
+    }
+
+    getTimeFromDate(dateString) {
+        let date = new Date(Number(dateString));
+        let hours = "0" + date.getHours();
+        let minutes = "0" + date.getMinutes();
+        return `${hours.slice(-2)}:${minutes.slice(-2)}`
+    }
+
 }
 
 export default App;

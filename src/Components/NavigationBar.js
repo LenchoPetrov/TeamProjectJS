@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './NavigationBar.css';
-import $ from 'jquery';
+
 
 class NavigationBar extends Component {
     render() {
@@ -14,12 +14,14 @@ class NavigationBar extends Component {
             );
         }
         else{
+            let that=this;
             return (
                 <div className="navigation-bar">
                     <a href="#" onClick={this.props.homeClicked}>Home</a>
                     <a href="#" onClick={this.props.postsClicked}>Posts</a>
                     <a href="#" onClick={this.props.createPostClicked}>Create Post</a>
                     <a href="#" onClick={this.props.usersClicked}>Users</a>
+                    <a href="#" onClick={function(){that.props.chatRoomClicked('allchat')}}>Chatroom</a>
                     <a href="#" onClick={this.props.logoutClicked}>Logout</a>
                     <span className="loggedInUser">
                         Welcome, {this.props.username}

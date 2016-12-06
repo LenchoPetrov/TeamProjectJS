@@ -34,6 +34,39 @@ table td {
     padding: 5px 10px;
 }
 
+#userSidebar{
+    float:left;
+    background: #DDD;
+    margin-right: 5px;
+    border-radius: 5px;
+    border: solid #7f7f7f 2px;
+}
+#message-box{
+    margin-left: 20px;
+    background: #DDD;
+    display: inline-block;
+    border-radius: 5px;
+    border: solid #7f7f7f 2px;
+
+}
+.sidebar-user{
+    padding: 5px;
+    border-radius: 2px;
+    cursor:pointer;
+
+}
+.sidebar-user:hover{
+    background: #7CB3E9;
+}
+.message-form{
+    padding-top: 20px;
+   text-align: center;
+}
+#chatMessages{
+    background: #7CB3E9;
+    border-radius: 5px;
+}
+
 
 
 
@@ -195,6 +228,7 @@ table tr td, table tr th{
     background-color: rgba(0,0,0,0.15);
 }
 
+<<<<<<< HEAD
 label{
     display: table;
 }
@@ -425,4 +459,132 @@ label{
 
 
 
+=======
+hr.style-seven {
+    height: 30px;
+    border-style: solid;
+    border-color: black;
+    border-width: 1px 0 0 0;
+    border-radius: 20px;
+}
+hr.style-seven:before { /* Not really supposed to work, but does */
+    display: block;
+    content: "";
+    height: 30px;
+    margin-top: -31px;
+    border-style: solid;
+    border-color: black;
+    border-width: 0 0 1px 0;
+    border-radius: 20px;
+}
+/*comment section*/
+.singleCommentDiv{
+    background-color: white;
+    word-wrap: break-word;
+    border: solid black 1px;
+    border-radius: 10px;
+    padding:10px;
+    width:40%;
+    min-height:40px;
+}
+/*end of comment section*/
+
+/*comment Buttons section*/
+.customButton {
+    -moz-box-shadow:inset 0px 1px 0px 0px #dcecfb;
+    -webkit-box-shadow:inset 0px 1px 0px 0px #dcecfb;
+    box-shadow:inset 0px 1px 0px 0px #dcecfb;
+    background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #bddbfa), color-stop(1, #80b5ea));
+    background:-moz-linear-gradient(top, #bddbfa 5%, #80b5ea 100%);
+    background:-webkit-linear-gradient(top, #bddbfa 5%, #80b5ea 100%);
+    background:-o-linear-gradient(top, #bddbfa 5%, #80b5ea 100%);
+    background:-ms-linear-gradient(top, #bddbfa 5%, #80b5ea 100%);
+    background:linear-gradient(to bottom, #bddbfa 5%, #80b5ea 100%);
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#bddbfa', endColorstr='#80b5ea',GradientType=0);
+    background-color:#bddbfa;
+    -moz-border-radius:16px;
+    -webkit-border-radius:16px;
+    border-radius:16px;
+    border:1px solid #3575b5;
+    display:inline-block;
+    cursor:pointer;
+    color:#ffffff;
+    font-family:Trebuchet MS;
+    font-size:15px;
+    font-weight:bold;
+    padding:6px 24px;
+    text-decoration:none;
+    text-shadow:0px 1px 0px #528ecc;
+}
+.customButton:hover {
+    background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #80b5ea), color-stop(1, #bddbfa));
+    background:-moz-linear-gradient(top, #80b5ea 5%, #bddbfa 100%);
+    background:-webkit-linear-gradient(top, #80b5ea 5%, #bddbfa 100%);
+    background:-o-linear-gradient(top, #80b5ea 5%, #bddbfa 100%);
+    background:-ms-linear-gradient(top, #80b5ea 5%, #bddbfa 100%);
+    background:linear-gradient(to bottom, #80b5ea 5%, #bddbfa 100%);
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#80b5ea', endColorstr='#bddbfa',GradientType=0);
+    background-color:#80b5ea;
+}
+.customButton:active {
+    position:relative;
+    top:1px;
+}
+.buttonHolder{
+    padding-top: 10px;
+}
+
+.commentButtonsHolder{
+    float:right;
+    margin-top:-4%;
+}
+
+.commentDetails{
+    font-size: 12px;
+    margin-bottom: -2%;
+    padding:10px;
+}
+
+.commentButton {
+    -moz-box-shadow:inset 0px 1px 0px 0px #dcecfb;
+    -webkit-box-shadow:inset 0px 1px 0px 0px #dcecfb;
+    box-shadow:inset 0px 1px 0px 0px #dcecfb;
+    background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #bddbfa), color-stop(1, #80b5ea));
+    background:-moz-linear-gradient(top, #bddbfa 5%, #80b5ea 100%);
+    background:-webkit-linear-gradient(top, #bddbfa 5%, #80b5ea 100%);
+    background:-o-linear-gradient(top, #bddbfa 5%, #80b5ea 100%);
+    background:-ms-linear-gradient(top, #bddbfa 5%, #80b5ea 100%);
+    background:linear-gradient(to bottom, #bddbfa 5%, #80b5ea 100%);
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#bddbfa', endColorstr='#80b5ea',GradientType=0);
+    background-color:#bddbfa;
+    -moz-border-radius:16px;
+    -webkit-border-radius:16px;
+    border-radius:16px;
+    border:1px solid #3575b5;
+    display:inline-block;
+    cursor:pointer;
+    color:#ffffff;
+    font-family:Trebuchet MS;
+    font-size:12px;
+    font-weight:bold;
+    padding:6px 18px;
+    text-decoration:none;
+    text-shadow:0px 1px 0px #528ecc;
+}
+.commentButton:hover {
+    background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #80b5ea), color-stop(1, #bddbfa));
+    background:-moz-linear-gradient(top, #80b5ea 5%, #bddbfa 100%);
+    background:-webkit-linear-gradient(top, #80b5ea 5%, #bddbfa 100%);
+    background:-o-linear-gradient(top, #80b5ea 5%, #bddbfa 100%);
+    background:-ms-linear-gradient(top, #80b5ea 5%, #bddbfa 100%);
+    background:linear-gradient(to bottom, #80b5ea 5%, #bddbfa 100%);
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#80b5ea', endColorstr='#bddbfa',GradientType=0);
+    background-color:#80b5ea;
+}
+.commentButton:active {
+    position:relative;
+    top:1px;
+}
+/*end of comment button section*/
+>>>>>>> origin/master
 

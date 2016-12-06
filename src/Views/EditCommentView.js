@@ -2,14 +2,15 @@ import React, { Component } from 'react';
 
 export default class EditCommentView extends Component{
     render(){
-        return <form className="formClass" onSubmit={this.submitForm.bind(this)}>
+        return <form className="formClass"  onSubmit={this.submitForm.bind(this)}>
             <label>
                 <div>Comment:</div>
-                <textarea name="body" rows="3" defaultValue={this.props.commentBody}
+                <textarea name="body"  rows="5" defaultValue={this.props.commentBody}
                           ref={e => this.commentField = e} />
             </label>
             <div>
-                <input type="submit" value="Edit" />
+                <input type="submit" value="Edit" />&nbsp;
+                <input type ="button" value ="Cancel" onClick={this.props.cancelClicked}/>
             </div>
         </form>
     }

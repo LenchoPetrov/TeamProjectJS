@@ -29,10 +29,9 @@ class DetailsPostView extends Component{
                     <div className="my-form-title">Posted by {this.props.author} on {this.props.date}</div>
                 </div>
                 <div className="buttonHolder">
-                    <button className="customButton" onClick={this.props.makeCommentClicked.bind(this,postId)}>Make a comment</button>
+                    <button className="customButton"  onClick={this.props.makeCommentClicked.bind(this,postId)}>Make a comment</button>
                 </div>
                 <hr/>
-                <div id="deleteCommentDiv"></div>
                 <div id="createCommentDiv"></div>
                 {commentsDiv}
             </div>

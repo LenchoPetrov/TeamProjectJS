@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 export default class CreateCommentView extends Component{
     render(){
 
-        return <form className="formClass" onSubmit={this.submitForm.bind(this)}>
+        return <form className="formClass" id="createCommentForm" onSubmit={this.submitForm.bind(this)}>
             <label>
                 <div>Comment:</div>
                 <textarea name="body" rows="3"

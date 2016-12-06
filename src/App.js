@@ -227,8 +227,6 @@ class App extends Component {
 
     loadPostDetails(postId) {
         let that = this;
-        getCommentsNPost(postId);
-        function getCommentsNPost(postId) {
             let comments = [];
             KinveyRequester.getAllComments().then(function (data) {
                 if (data.length > 0) {
@@ -255,7 +253,6 @@ class App extends Component {
                 }
 
             });
-        }
 
     }
 
@@ -473,67 +470,88 @@ class App extends Component {
 
 
     showCommentView(postId) {
-        let view = <CreateCommentView
-            postId={postId}
-            onsubmit={this.postComment.bind(this)}
-        />;
-        ReactDOM.render(view, document.getElementById('createCommentDiv'));
+        if(document.getElementById('createCommentForm')){
+            ReactDOM.unmountComponentAtNode(document.getElementById('createCommentDiv'));
+        }
+        else {
+            let view = <CreateCommentView
+                postId={postId}
+                onsubmit={this.postComment.bind(this)}
+            />;
+            ReactDOM.render(view, document.getElementById('createCommentDiv'));
+        }
     }
 
     postComment(commentBody, postId, date) {
-        let that = this;
-        KinveyRequester.postComment(postId, commentBody, date, this.state.username).then(
-            // this.loadPostDetails(postId))
-            function () {
-                ReactDOM.unmountComponentAtNode(document.getElementById('createCommentDiv'));
-                that.loadPostDetails(postId);
-            }
-        )
+        if(commentBody.length>500){
+            let response={responseJSON:{description:"Comment must be no longer than 500 symbols"}};
+            this.handleAjaxError("",response)
+        }else {
+            let that = this;
+            KinveyRequester.postComment(postId, commentBody, date, this.state.username).then(
+                // this.loadPostDetails(postId))
+                function () {
+                    ReactDOM.unmountComponentAtNode(document.getElementById('createCommentDiv'));
+                    that.loadPostDetails(postId);
+                }
+            )
+        }
     }
 
     showDeleteConfirmationView(commentId, commentBody, postId) {
-        let view = <DeleteConfirmationView
-            postId={postId}
-            commentId={commentId}
-            commentBody={commentBody}
-            yesClicked={this.deleteComment.bind(this)}
-            cancelClicked={cancelConfirmation}
-        />;
-        ReactDOM.render(view, document.getElementById('deleteCommentDiv'));
-        function cancelConfirmation() {
-            ReactDOM.unmountComponentAtNode(document.getElementById('deleteCommentDiv'));
-        }
+        $("html, body").animate({ scrollTop: 0 }, "slow");
+            let view = <DeleteConfirmationView
+                postId={postId}
+                commentId={commentId}
+                commentBody={commentBody}
+                yesClicked={this.deleteComment.bind(this)}
+                cancelClicked={this.cancelConfirmation}
+            />;
+            ReactDOM.render(view, document.getElementById('createCommentDiv'));
+
+
     }
+
+    cancelConfirmation() {
+    ReactDOM.unmountComponentAtNode(document.getElementById('createCommentDiv'));
+}
 
     deleteComment(commentId, postId) {
         let that = this;
         KinveyRequester.deleteComment(commentId).then(function () {
-            ReactDOM.unmountComponentAtNode(document.getElementById('deleteCommentDiv'));
+            ReactDOM.unmountComponentAtNode(document.getElementById('createCommentDiv'));
             that.loadPostDetails(postId);
         })
     }
 
 
     showEditCommentView(commentId, postId, commentBody, date) {
-        let view = <EditCommentView
-            date={date}
-            postId={postId}
-            commentId={commentId}
-            commentBody={commentBody}
-            onsubmit={this.editComment.bind(this)}
-        />;
-        ReactDOM.render(view, document.getElementById('createCommentDiv'));
+        $("html, body").animate({ scrollTop: 0 }, "slow");
+            let view = <EditCommentView
+                cancelClicked={this.cancelConfirmation}
+                date={date}
+                postId={postId}
+                commentId={commentId}
+                commentBody={commentBody}
+                onsubmit={this.editComment.bind(this)}
+            />;
+            ReactDOM.render(view, document.getElementById('createCommentDiv'));
     }
 
     editComment(commentId, commentBody, postId, date) {
-        let that = this;
-        KinveyRequester.editComment(commentId, postId, commentBody, date, this.state.username).then(
-            // this.loadPostDetails(postId))
-            function () {
-                ReactDOM.unmountComponentAtNode(document.getElementById('createCommentDiv'));
-                that.loadPostDetails(postId);
-            }
-        )
+        if(commentBody.length>700) {
+            let response = {responseJSON: {description: "Comment must be no longer than 500 symbols"}};
+            this.handleAjaxError("", response)
+        }else {
+            let that = this;
+            KinveyRequester.editComment(commentId, postId, commentBody, date, this.state.username).then(
+                // this.loadPostDetails(postId))
+                function () {
+                    ReactDOM.unmountComponentAtNode(document.getElementById('createCommentDiv'));
+                    that.loadPostDetails(postId);
+                }
+            )
+        }
     }
 
     getTimeFromDate(dateString) {

@@ -4,7 +4,7 @@ export default class DeleteConfirmationView extends Component{
     render(){
         let commentId = this.props.commentId;
         let postId=this.props.postId;
-        return <div className="confirmationView">
+        return <div className="confirmationView" id="deleteConfirmationBox">
             <h3>Do you want to delete this comment?</h3>
             <textarea className="singleCommentDiv" value={this.props.commentBody} disabled/><br/>
             <input type="button" className="commentButton" value="Yes"

@@ -37,8 +37,14 @@ class DetailsUserView extends Component {
                                                 <h3 className="name">{username}</h3>
                                                 <h5><i className="fa fa-map-marker fa-fw text-muted"></i>Place
                                                 </h5>
+
                                                 <h5><i className="fa fa-building-o fa-fw text-muted"></i>Fullname: {firstName} {lastName}</h5>
                                                 <h5><i className="fa fa-envelope-o fa-fw text-muted"></i>Posts count: {this.props.posts.length}</h5>
+
+                                                <h5><i className="fa fa-building-o fa-fw text-muted"></i>{firstName} {lastName}</h5>
+                                                <h5><i className="fa fa-envelope-o fa-fw text-muted"></i>
+                                                    some mail</h5>
+
                                             </div>
                                         </div>
                                     </div>
@@ -49,7 +55,11 @@ class DetailsUserView extends Component {
                                         <div className="content">
                                             <div className="main">
                                                 <h4 className="text-center">{postRows}</h4>
+
                                                 <button onClick={this.editUserButtonClicked.bind(this)}>Edit user</button>
+
+                                                <p>editBtn</p>
+
                                             </div>
                                         </div>
                                         <div className="footer">

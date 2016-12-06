@@ -398,26 +398,6 @@ class App extends Component {
 
     loadUsersDetails(userId){
 
-        let usernameVal;
-        let firstNameVal;
-        let lastNameVal;
-        let imageVal;
-        KinveyRequester.findUserById(userId)
-            .then(findUserById.bind(this));
-        function findUserById(user){
-            usernameVal = user.username;
-            firstNameVal = user.firstName;
-            lastNameVal = user.lastName;
-            imageVal = user.image;
-            this.showView(<DetailsUserView
-                username={user.username}
-                firstName={user.firstName}
-                lastName={user.lastName}
-                image={user.image}
-            />)
-        }
-
-
         let userPromise=KinveyRequester.findUserById(userId);
 
         let postsPromise=KinveyRequester.loadPosts();
@@ -432,18 +412,10 @@ class App extends Component {
             let imageVal = user.image;
             let user_id=user._id;
 
-
             let arrPosts = [];
             for(let post of postsData){
                 if(post._acl.creator === userId){
                     arrPosts.push(post);
-
-        function loadUserSuccess(post) {
-            let arrPosts = [];
-            for(let i in post){
-                if(post[i]._acl.creator === userId){
-                    arrPosts.push(post[i]);
-
                 }
             }
             this.showView(<DetailsUserView
@@ -452,7 +424,6 @@ class App extends Component {
                 lastName={lastNameVal}
                 image={imageVal}
                 posts={arrPosts}
-
                 userId={user_id}
                 editUser={this.loadUserForEdit.bind(this)}
                 getDetailsPostClicked={this.loadPostDetails.bind(this)}
@@ -465,17 +436,6 @@ class App extends Component {
         KinveyRequester.findUserById(userId)
             .then(findUserByIdSuccess.bind(this));
         function findUserByIdSuccess(user){
-
-                getDetailsPostClicked={this.loadPostDetails.bind(this)}
-            />)
-        }
-    }
-
-    loadUserForEdit(userId){
-        KinveyRequester.findPostById(userId)
-            .then(findUserById.bind(this));
-        function findUserById(user){
-
             this.showView(<EditUserProfileView
                 userId={user._id}
                 firstName={user.firstName}

@@ -14,6 +14,7 @@ import DeletePostView from './Views/DeletePostView';
 import DetailsPostView from './Views/DetailsPostView';
 import UserView from './Views/UsersView';
 import DetailsUserView from './Views/DetailsUserView';
+import EditUserProfileView from './Views/EditUserProfileView';
 
 
 import $ from 'jquery';
@@ -230,8 +231,8 @@ class App extends Component {
             this.showPostsView();
         }
     }
-    register(username,firstName,lastName,password){
-        KinveyRequester.registerUser(username,firstName,lastName,password)
+    register(username,firstName,lastName,image,password){
+        KinveyRequester.registerUser(username,firstName,lastName,image,password)
             .then(registerSuccess.bind(this));
         function registerSuccess(userInfo){
             this.saveAuthInSession(userInfo);
@@ -306,13 +307,22 @@ class App extends Component {
     }
 
     loadUsersDetails(userId){
+        let usernameVal;
+        let firstNameVal;
+        let lastNameVal;
+        let imageVal;
         KinveyRequester.findUserById(userId)
             .then(findUserById.bind(this));
         function findUserById(user){
+            usernameVal = user.username;
+            firstNameVal = user.firstName;
+            lastNameVal = user.lastName;
+            imageVal = user.image;
             this.showView(<DetailsUserView
                 username={user.username}
                 firstName={user.firstName}
                 lastName={user.lastName}
+                image={user.image}
             />)
         }
         KinveyRequester.loadPosts()
@@ -321,13 +331,34 @@ class App extends Component {
         function loadUserSuccess(post){
             let arrPosts = [];
             for(let i in post){
-                if(post[i]._acl.creator == userId){
+                if(post[i]._acl.creator === userId){
                     arrPosts.push(post[i]);
                 }
             }
             this.showView(<DetailsUserView
+                username={usernameVal}
+                firstName={firstNameVal}
+                lastName={lastNameVal}
+                image={imageVal}
                 posts={arrPosts}
-                parseDate={this.parseDate}
+                getDetailsPostClicked={this.loadPostDetails.bind(this)}
+            />)
+        }
+    }
+
+    loadUserForEdit(userId){
+        KinveyRequester.findPostById(userId)
+            .then(findUserById.bind(this));
+        function findUserById(user){
+            this.showView(<EditUserProfileView
+                userId={user._id}
+                firstName={user.firstName}
+                lastName={user.lastName}
+                mail={user.mail}
+                place={user.place}
+                facebookProfile={user.facebookProfile}
+                twitterProfile={user.twitterProfile}
+                googleProfile={user.googleProfile}
             />)
         }
     }

@@ -3,7 +3,7 @@ import React, {Component} from 'react'
 class DeletePostView extends Component{
     render(){
         return(
-            <form className="delete-post-form" onSubmit={this.submitForm.bind(this)}>
+            <form className="delete-post-form my-form" onSubmit={this.submitForm.bind(this)}>
                 <h1>Confirm Post Delete</h1>
                 <label>
                     <div>Title:</div>
@@ -29,7 +29,7 @@ class DeletePostView extends Component{
                               ref={e => this.bodyField = e} disabled />
                 </label>
                 <div>
-                    <input type="submit" value="Delete" />
+                    <input className="my-btns hvr-pulse" type="submit" value="Delete" />
                 </div>
             </form>
         )

@@ -3,7 +3,7 @@ import React, {Component} from 'react'
 class CreatePostView extends Component{
     render(){
         return(
-            <form className="create-post-form" onSubmit={this.submitForm.bind(this)}>
+            <form className="create-post-form my-form" onSubmit={this.submitForm.bind(this)}>
                 <h1>Create Post</h1>
                 <label>
                     <div>Author:</div>

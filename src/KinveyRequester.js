@@ -14,11 +14,11 @@ let KinveyRequester=(function(){
             headers:kinveyAppAuthHeaders
         })
     }
-    function registerUser(username,firstName,lastName,password){
+    function registerUser(username,firstName,lastName,image,password){
         return $.ajax({
             method:"POST",
             url:kinveyBaseUrl+'user/'+kinveyAppKey,
-            data:{username, firstName,lastName, password},
+            data:{username, firstName,lastName,image, password},
             headers:kinveyAppAuthHeaders
         })
     }
@@ -105,6 +105,17 @@ let KinveyRequester=(function(){
         })
     }
 
+
+    function editUser(userId, firstName, lastName, mail, place, facebookProfile, twitterProfile, googleProfile){
+        let userData = {userId, firstName, lastName, mail, place, facebookProfile, twitterProfile, googleProfile};
+        return $.ajax({
+            method:"PUT",
+            url:kinveyBaseUrl+'user/'+kinveyAppKey +'/' + userId,
+            headers:getAuthHeaders(),
+            data:userData
+        })
+    }
+
     function getAllComments(){
         return $.ajax({
             url:kinveyBaseUrl+'appdata/'+kinveyAppKey+'/comments',
@@ -141,9 +152,7 @@ let KinveyRequester=(function(){
     }
 
     return {loginUser,registerUser,loadPosts,createPost,findPostById,editPost,deletePost,loadUsers,
-        findUserById,loadChat,createChatMessage,getAllComments,deleteComment,editComment,postComment}
-
-    // return {loginUser,registerUser,loadPosts,createPost,findPostById,editPost,deletePost,loadUsers,findUserById}
+        findUserById,loadChat,createChatMessage,getAllComments,deleteComment,editComment,postComment,editUser}
 
 })();
 

@@ -46,13 +46,13 @@ export default class PostsView extends Component {
                 <h1>Posts</h1>
                 <div className="search-bar">
                     Search by
-                    <select className="form-control hvr-grow search-post" onChange={this.selectChange.bind(this)} value={this.state.selected}>
+                    <select className="hvr-grow search-post" onChange={this.selectChange.bind(this)} value={this.state.selected}>
                         <option className="options" value="title">Title</option>
                         <option className="options" value="author">Author</option>
                         <option className="options" value="tag">Tag</option>
                     </select>
 
-                    <input type="text" className="form-control hvr-grow search-post" onChange={this.textChange.bind(this)}></input>
+                    <input type="text" className="hvr-grow search-post" onChange={this.textChange.bind(this)}></input>
                     <button className="my-btns hvr-pulse search-post" onClick={this.buttonClicked.bind(this)}>Search</button>
                 </div>
 

@@ -3,7 +3,7 @@ import React, {Component} from 'react'
 class LoginView extends Component{
     render(){
         return(
-            <form className="login-form" onSubmit={this.submitForm.bind(this)}>
+            <form className="login-form my-form" onSubmit={this.submitForm.bind(this)}>
                 <h1>Login</h1>
                 <label>
                     <div>Username:</div>

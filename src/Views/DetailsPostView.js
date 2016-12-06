@@ -21,11 +21,12 @@ class DetailsPostView extends Component{
             </div>;
         }
         return(
-            <div className="post-details">
-                <div id="PostBox">
-                    <h2>{this.props.title}</h2>
-                    <div id="PostText">{this.props.body}</div>
-                    <div>Posted by {this.props.author} on {this.props.date}</div>
+            <div className="post-details details">
+                <div className="details">
+                    <h2 className="details my-form-title">{this.props.title}</h2>
+                    <div id="PostText" className="my-form my-form-body">{this.props.body}</div>
+                    &nbsp;
+                    <div className="my-form-title">Posted by {this.props.author} on {this.props.date}</div>
                 </div>
                 <div className="buttonHolder">
                     <button className="customButton" onClick={this.props.makeCommentClicked.bind(this,postId)}>Make a comment</button>

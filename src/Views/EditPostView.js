@@ -3,7 +3,7 @@ import React, {Component} from 'react'
 class EditPostView extends Component{
     render(){
         return(
-            <form className="edit-post-form" onSubmit={this.submitForm.bind(this)}>
+            <form className="edit-post-form my-form" onSubmit={this.submitForm.bind(this)}>
                 <h1>Edit Post</h1>
                 <label>
                     <div>Author:</div>

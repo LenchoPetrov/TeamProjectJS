@@ -125,10 +125,8 @@ class App extends Component {
             }    
         }
         else{
-
             this.showView(<HomeView noLoggedUser="true"/>)
         }
-        
     }
 
     showLoginView() {

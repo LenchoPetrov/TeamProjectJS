@@ -450,16 +450,22 @@ class App extends Component {
         function findUserByIdSuccess(user){
             this.showView(<EditUserProfileView
                 userId={user._id}
+                username={user.username}
                 firstName={user.firstName}
                 lastName={user.lastName}
-                mail={user.mail}
-                place={user.place}
-                facebookProfile={user.facebookProfile}
-                twitterProfile={user.twitterProfile}
-                googleProfile={user.googleProfile}
+                image={user.image}
+                onsubmit={this.editUser.bind(this)}
             />)
         }
 
+    }
+    editUser(userId,username,firstName,lastName,image){
+        KinveyRequester.editUser(userId,username,firstName,lastName,image)
+            .then(editUserSuccess.bind(this));
+        function editUserSuccess(){
+            this.showInfo('Edit successful.');
+            this.loadUsersDetails(userId);
+        }
     }
 
     //comment functions

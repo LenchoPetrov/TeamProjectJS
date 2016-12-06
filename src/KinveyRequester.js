@@ -106,8 +106,8 @@ let KinveyRequester=(function(){
     }
 
 
-    function editUser(userId, firstName, lastName, mail, place, facebookProfile, twitterProfile, googleProfile){
-        let userData = {userId, firstName, lastName, mail, place, facebookProfile, twitterProfile, googleProfile};
+    function editUser(userId, username, firstName, lastName, image){
+        let userData = {username, firstName, lastName, image};
         return $.ajax({
             method:"PUT",
             url:kinveyBaseUrl+'user/'+kinveyAppKey +'/' + userId,

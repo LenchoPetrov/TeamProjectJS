@@ -2,10 +2,15 @@ import React, {Component} from 'react'
 
 class DetailsUserView extends Component {
     render() {
-        let postRows = this.props.posts.map(post =>
-                <a key={post._id} href="#" className="users-click post-user-back" onClick={this.props.getDetailsPostClicked.bind(this, post._id)}>{post.title}</a>
-    );
-        console.log(this.props);
+        let postRows=<div>{this.props.username} doesn't have posts</div>;
+
+        if(this.props.posts.length>0) {
+            postRows = this.props.posts.map(post =>
+                <a key={post._id} href="#" className="users-click post-user-back"
+                   onClick={this.props.getDetailsPostClicked.bind(this, post._id)}>{post.title}</a>
+            );
+        }
+
         let username = this.props.username;
         let firstName = this.props.firstName;
         let lastName = this.props.lastName;
@@ -13,10 +18,11 @@ class DetailsUserView extends Component {
         if(image==undefined){
             image = "http://www.therealtyclub.com/public/images/realty_club/no_logo.svg";
         }
-        console.log(username);
-        console.log(firstName);
-        console.log(lastName);
-        console.log(image);
+
+        let editButton=<div></div>;
+        if(this.props.userId==sessionStorage.getItem('userId')){
+            editButton=<button onClick={this.editUserButtonClicked.bind(this)}>Edit user</button>;
+        }
 
         return (
             <div className="main-container">
@@ -35,8 +41,6 @@ class DetailsUserView extends Component {
                                         <div className="content text-center">
                                             <div className="main">
                                                 <h3 className="name">{username}</h3>
-                                                <h5><i className="fa fa-map-marker fa-fw text-muted"></i>Place
-                                                </h5>
                                                 <h5><i className="fa fa-building-o fa-fw text-muted"></i>Fullname: {firstName} {lastName}</h5>
                                                 <h5><i className="fa fa-envelope-o fa-fw text-muted"></i>Posts count: {this.props.posts.length}</h5>
                                             </div>
@@ -49,18 +53,10 @@ class DetailsUserView extends Component {
                                         <div className="content">
                                             <div className="main">
                                                 <h4 className="text-center">{postRows}</h4>
-                                                <button onClick={this.editUserButtonClicked.bind(this)}>Edit user</button>
+                                                {editButton}
                                             </div>
                                         </div>
                                         <div className="footer">
-                                            <div className="social-links text-center">
-                                                <a href="" className="facebook"><i
-                                                    className="fa fa-facebook fa-fw"></i></a>
-                                                <a href=""
-                                                   className="google"><i className="fa fa-google-plus fa-fw"></i></a>
-                                                <a href="" className="twitter"><i
-                                                    className="fa fa-twitter fa-fw"></i></a>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -72,11 +68,14 @@ class DetailsUserView extends Component {
 
         )
     }
-
+    noPic(){
+        alert('asd')
+    }
     editUserButtonClicked(){
-        this.props.editUser(this.props.userId)
+        this.props.editUser(this.props.userId);
     }
 
 }
+
 export default DetailsUserView;
 

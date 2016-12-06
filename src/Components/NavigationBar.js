@@ -23,12 +23,16 @@ class NavigationBar extends Component {
                     <a href="#" onClick={this.props.usersClicked}>Users</a>
                     <a href="#" onClick={function(){that.props.chatRoomClicked('allchat')}}>Chatroom</a>
                     <a href="#" onClick={this.props.logoutClicked}>Logout</a>
-                    <span className="loggedInUser">
+                    <span className="loggedInUser" onClick={this.userClicked.bind(this)}>
                         Welcome, {this.props.username}
                     </span>
                 </div>
             );
         }
+    }
+
+    userClicked(){
+        this.props.loadUser(sessionStorage.getItem('userId'));
     }
 }
 

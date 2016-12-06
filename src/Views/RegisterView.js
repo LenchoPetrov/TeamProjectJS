@@ -19,7 +19,7 @@ class RegisterView extends Component{
                 </label>
                 <label>
                     <div>Profile image:</div>
-                    <input type="text" className="form-control hvr-grow" name="profileImage" required ref={e=>this.profileImageField=e}/>
+                    <input type="text" className="form-control hvr-grow" name="profileImage"  ref={e=>this.profileImageField=e}/>
                 </label>
                 <label>
                     <div>Password:</div>

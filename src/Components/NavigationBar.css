@@ -29,4 +29,5 @@
 .navigation-bar .loggedInUser {
     float: right;
     margin-right: 10px;
+    cursor:pointer;
 }

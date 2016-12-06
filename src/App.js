@@ -63,6 +63,7 @@ class App extends Component {
                 usersClicked={this.showUsersView.bind(this)}
                 chatRoomClicked={this.showChatRoomView.bind(this)}
                 logoutClicked={this.logout.bind(this)}
+                loadUser={this.loadUsersDetails.bind(this)}
             />
             <div id="loadingBox">Loading...</div>
             <div id="errorBox">Error msg</div>

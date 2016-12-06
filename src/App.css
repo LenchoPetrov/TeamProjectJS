@@ -72,6 +72,10 @@ table td {
     text-align: center;
 }
 
+.message-form label input{
+    width: 100%;
+}
+
 .message {
     text-align: left;
     padding-left: 10px;
@@ -217,10 +221,10 @@ table td {
 
 table {
     margin: auto;
+    min-width: 450px;
 }
 
-p,
-h1 {
+p, h1 {
     text-align: center;
 }
 
@@ -245,7 +249,7 @@ table tr td, table tr th {
 }
 
 .search-post {
-    margin-left: 12px;
+    margin-left: 20px;
     margin-bottom: 2px;
     display: inline !important;
     background-color: transparent;
@@ -259,13 +263,18 @@ table tr td, table tr th {
     border-radius: 3px;
 }
 
+input.search-post {
+    min-width: 300px;
+}
+
 .options {
     background-color: rgba(0, 0, 0, 0.15);
 }
 
 label {
     display: table;
-    /*margin:auto;*/
+    margin:auto;
+    min-width: 400px;
 }
 
 .post-user-back {

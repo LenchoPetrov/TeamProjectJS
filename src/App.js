@@ -21,7 +21,7 @@ import PrivateChatView from './Views/PrivateChatView'
 import CreateCommentView from './Views/CreateCommentView';
 import EditCommentView from './Views/EditCommentView';
 import DeleteConfirmationView from './Views/DeleteConfirmationView';
-import SideBar from './Components/SideBar'
+
 
 import $ from 'jquery';
 import KinveyRequester from './KinveyRequester'
@@ -37,22 +37,6 @@ class App extends Component {
     }
 
     componentDidMount(){
-
-        KinveyRequester.loadPosts()
-            .then(loadBooksSuccess.bind(this))
-
-        function loadBooksSuccess(books) {
-            books = books.sort((a, b) => Number(b.date) - Number(a.date))
-            let result = []
-            for (let i = 0; i < 5; i++) {
-                result.push(books[i])
-            }
-            ReactDOM.render(
-                <SideBar books={result} load={this.loadPostDetails.bind(this)}/>,
-                document.getElementById('sideBar')
-            )
-        }
-
         $(document).on({
             ajaxStart:function(){$('#loadingBox').show()},
             ajaxStop:function(){$('#loadingBox').hide()}
@@ -80,7 +64,6 @@ class App extends Component {
                 chatRoomClicked={this.showChatRoomView.bind(this)}
                 logoutClicked={this.logout.bind(this)}
             />
-              <div id="sideBar"></div>
             <div id="loadingBox">Loading...</div>
             <div id="errorBox">Error msg</div>
             <div id="infoBox">Info msg</div>
@@ -123,17 +106,28 @@ class App extends Component {
 
 
     showHomeView() {
-        KinveyRequester.loadPosts()
-            .then(loadPostSuccess.bind(this));
-        function loadPostSuccess(posts) {
-            //compare based on last modified time
-            let post = posts.sort((postA, postB) => postA._kmd.lmt < postB._kmd.lmt)[0];
-            this.showView(<HomeView
-                post={post}
-                cutText={this.cutText.bind(this)}
-                parseDate={this.parseDate.bind(this)}
-            />)
+        if(sessionStorage.getItem('userId')){
+            KinveyRequester.loadPosts()
+                .then(loadPostSuccess.bind(this));
+            function loadPostSuccess(postsData) {
+                //compare based on last modified time
+                let posts = postsData.sort((postA, postB) => postA._kmd.lmt < postB._kmd.lmt);
+                this.showView(<HomeView
+                    getDetailsPostClicked={this.loadPostDetails.bind(this)}
+                    searchPosts={this.searchPosts.bind(this)}
+                    load={this.loadPostDetails.bind(this)}
+                    posts={posts}
+                    finalPost={posts[0]}
+                    cutText={this.cutText.bind(this)}
+                    parseDate={this.parseDate.bind(this)}
+                />)
+            }    
         }
+        else{
+
+            this.showView(<HomeView noLoggedUser="true"/>)
+        }
+        
     }
 
     showLoginView() {

@@ -1,7 +1,17 @@
 import React, {Component} from 'react'
+import SideBarView from './SideBarView';
 
 class HomeView extends Component {
     render() {
+        if(this.props.noLoggedUser){
+            return(
+                <div>
+                    <h1>Home</h1>
+                    <p>Welcome to the SoftUni project Blog, a single page application created with javascript, React, jquery, ajax and Kinvey</p>
+                </div>
+            )
+        }
+
         let that = this;
         function tagBuilder(tagsArr){
             let tags=[];
@@ -14,20 +24,25 @@ class HomeView extends Component {
         }
         let postRows =
         <table>
-            <tr key={that.props.post._id}>
-                <td>{that.props.cutText(that.props.post.title,20)}</td>
-                <td>{that.props.post.author}</td>
-                <td>{that.props.cutText(that.props.post.body,100)}</td>
-                <td>{that.props.parseDate(that.props.post.date)}</td>
-                <td>{tagBuilder(that.props.post.tags)}</td>
-            </tr>
+            <tbody>
+                <tr key={that.props.finalPost._id}>
+                    <td>{that.props.cutText(that.props.finalPost.title,20)}</td>
+                    <td>{that.props.finalPost.author}</td>
+                    <td>{that.props.cutText(that.props.finalPost.body,100)}</td>
+                    <td>{that.props.parseDate(that.props.finalPost.date)}</td>
+                    <td>{tagBuilder(that.props.finalPost.tags)}</td>
+                    <td><input type="button" value="Details" className="my-btns hvr-grow"
+                               onClick={this.props.getDetailsPostClicked.bind(this, that.props.finalPost._id)} /></td>
+                </tr>
+            </tbody>
         </table>
         ;
 
         return (
             <div className="home-view">
-                <h1>Welcome to home</h1>
-                <p>Welcome to the blog</p>
+                <h1>Home</h1>
+                <p>Welcome to the SoftUni project Blog, a single page application created with javascript, React, jquery, ajax and Kinvey</p>
+                <SideBarView load={this.props.load} posts={this.props.posts}/>
                 <div>
                     <h3>
                         Latest post
@@ -39,6 +54,10 @@ class HomeView extends Component {
             </div>
         )
     }
+    tagClicked(tagString){
+        this.props.searchPosts('tag',tagString);
+    }
+
 }
 
 export default HomeView;

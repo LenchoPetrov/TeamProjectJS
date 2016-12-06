@@ -36,6 +36,22 @@ class App extends Component {
     }
 
     componentDidMount(){
+
+        KinveyRequester.loadPosts()
+            .then(loadBooksSuccess.bind(this))
+
+        function loadBooksSuccess(books) {
+            books = books.sort((a, b) => Number(b.date) - Number(a.date))
+            let result = []
+            for (let i = 0; i < 5; i++) {
+                result.push(books[i])
+            }
+            ReactDOM.render(
+                <SideBar books={result} load={this.loadPostDetails.bind(this)}/>,
+                document.getElementById('sideBar')
+            )
+        }
+
         $(document).on({
             ajaxStart:function(){$('#loadingBox').show()},
             ajaxStop:function(){$('#loadingBox').hide()}

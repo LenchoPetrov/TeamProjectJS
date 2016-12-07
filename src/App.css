@@ -501,6 +501,7 @@ label {
 .details {
     background-color: rgba(0, 0, 0, 0.1);
     color: black;
+    min-width: 600px;
 }
 
 .my-form-body {
@@ -531,14 +532,17 @@ hr.style-seven:before { /* Not really supposed to work, but does */
 }
 
 /*comment section*/
-.singleCommentDiv {
+.single-comment-div {
     background-color: white;
     word-wrap: break-word;
     border: solid black 1px;
-    border-radius: 10px;
+    border-radius: 8px;
     padding: 10px;
-    width: 40%;
-    min-height: 40px;
+    margin: 5px;
+}
+
+.formClass textarea {
+    width: 100%;
 }
 
 /*end of comment section*/

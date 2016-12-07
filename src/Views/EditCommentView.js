@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 export default class EditCommentView extends Component{
     render(){
-        return <form className="formClass"  onSubmit={this.submitForm.bind(this)}>
+        return <form className="formClass single-comment-div"  onSubmit={this.submitForm.bind(this)}>
             <label>
                 <div>Comment:</div>
                 <textarea name="body"  rows="5" defaultValue={this.props.commentBody}

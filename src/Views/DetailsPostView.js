@@ -8,7 +8,7 @@ class DetailsPostView extends Component{
         let commentsDiv=<h2>No comments yet</h2>;
         if(comments.length>0){
             let renderedComments=comments.map(comment=>
-                <div className="singleCommentDiv" key={comment._id}>
+                <div className="single-comment-div" key={comment._id}>
                     <div><i>{comment.body}</i></div>
                     <div className="commentDetails"><strong>Commented by</strong> <i>{comment.author}</i> <strong>on</strong> {that.props.parseDate(comment.date)}&nbsp;
                         <strong>at</strong> {that.props.getTime(comment.date)}</div>
@@ -21,10 +21,10 @@ class DetailsPostView extends Component{
             </div>;
         }
         return(
-            <div className="post-details details">
+            <div className="post-details my-form">
                 <div className="details">
                     <h2 className="details my-form-title">{this.props.title}</h2>
-                    <div id="PostText" className="my-form my-form-body">{this.props.body}</div>
+                    <div id="PostText" className="my-form-body">{this.props.body}</div>
                     &nbsp;
                     <div className="my-form-title">Posted by {this.props.author} on {this.props.date}</div>
                 </div>

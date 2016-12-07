@@ -12,7 +12,7 @@ export default class UserView extends Component {
         );
 
         return (
-            <div className="user-view my-form">
+            <div className="user-view">
                 <h1>Users</h1>
                 <table className="users-table">
                     <thead>

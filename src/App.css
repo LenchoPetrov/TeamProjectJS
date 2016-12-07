@@ -54,6 +54,7 @@ table td {
     border-radius: 5px;
     border: solid #7f7f7f 2px;
     min-width: 500px;
+    padding: 15px;
 }
 
 .sidebar-user {
@@ -90,10 +91,12 @@ table td {
 #sideBar {
     float: right;
     width: 200px;
-    background: #ccc;
+    background-color: rgba(204, 204, 204, 0.75);
     min-height: 100%;
     margin: 5px;
     padding: 10px;
+    border: 1px solid #525252;
+    border-radius: 12px;
 }
 
 #PostBox {
@@ -487,7 +490,12 @@ label {
 }
 
 .my-form {
-    padding-left: 30px;
+    background-color: rgba(204, 204, 204, 0.75);
+    display: inline-block;
+    padding: 25px;
+    margin-top: 80px;
+    border: 1px solid #525252;
+    border-radius: 12px;
 }
 
 .details {

@@ -24,6 +24,16 @@ class HomeView extends Component {
         }
         let postRows =
         <table>
+            <thead>
+            <tr>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Body</th>
+                <th>Date</th>
+                <th>Tags</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
             <tbody>
                 <tr key={that.props.finalPost._id}>
                     <td>{that.props.cutText(that.props.finalPost.title,20)}</td>
@@ -48,6 +58,7 @@ class HomeView extends Component {
                         Latest post
                     </h3>
                     <span>
+
                         {postRows}
                     </span>
                 </div>

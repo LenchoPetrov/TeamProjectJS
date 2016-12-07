@@ -147,7 +147,7 @@ let KinveyRequester=(function(){
         return $.ajax({
             method:'DELETE',
             url:kinveyBaseUrl+'appdata/'+kinveyAppKey+'/comments/'+commentId,
-            headers:getAuthHeaders(),
+            headers:getAuthHeaders()
         })
     }
 

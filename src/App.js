@@ -112,7 +112,7 @@ class App extends Component {
                 .then(loadPostSuccess.bind(this));
             function loadPostSuccess(postsData) {
                 //compare based on last modified time
-                let posts = postsData.sort((postA, postB) => postA._kmd.lmt < postB._kmd.lmt);
+                let posts = postsData.sort((postA, postB) => Number(postB.date) - Number(postA.date));
                 this.showView(<HomeView
                     getDetailsPostClicked={this.loadPostDetails.bind(this)}
                     searchPosts={this.searchPosts.bind(this)}
@@ -142,6 +142,7 @@ class App extends Component {
             .then(loadPostsSuccess.bind(this));
         function loadPostsSuccess(posts) {
             this.showInfo('Posts loaded.');
+            posts=posts.sort((p1,p2)=>Number(p2.date)-Number(p1.date));
             this.showView(<PostsView
                 posts={posts}
                 userId={this.state.userId}
